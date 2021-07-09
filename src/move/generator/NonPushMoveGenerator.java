@@ -2,6 +2,7 @@ package move.generator;
 
 import java.util.ArrayList;
 import board.Layer;
+import board.Layer.LightNode;
 import board.Marble.MarbleColor;
 import formation.computer.LineComputer;
 import formation.shape.Line;
@@ -13,18 +14,25 @@ import move.representation.*;
 
 public class NonPushMoveGenerator
 {
-	protected ArrayList<SimpleMove> _simple;
-	protected ArrayList<ShiftLine> _shift;
-	protected ArrayList<SideStep> _sideStep;
+	protected ArrayList<SimpleMove> _whiteSimple;
+	protected ArrayList<SimpleMove> _blackSimple;
+	protected ArrayList<ShiftLine> _whiteShift;
+	protected ArrayList<ShiftLine> _blackShift;
+	protected ArrayList<SideStep> _whiteSideStep;
+	protected ArrayList<SideStep> _blackSideStep;
 	protected Layer _layer;
-	
+
+
 	protected LineComputer _lineComp;
 
 	public NonPushMoveGenerator(Layer layer)
 	{
-		_simple = new ArrayList<SimpleMove>();
-		_shift= new ArrayList<ShiftLine>();
-		_sideStep= new ArrayList<SideStep>();
+		_whiteSimple = new ArrayList<SimpleMove>();
+		_blackSimple = new ArrayList<SimpleMove>();
+		_whiteShift= new ArrayList<ShiftLine>();
+		_blackShift= new ArrayList<ShiftLine>();
+		_whiteSideStep= new ArrayList<SideStep>();
+		_blackSideStep= new ArrayList<SideStep>();
 		_layer = layer;
 		_lineComp = new LineComputer(_layer);
 	}
@@ -46,19 +54,39 @@ public class NonPushMoveGenerator
 	//
 	public ArrayList<SimpleMove> computeAllSimple(MarbleColor color)
 	{
-		AbaloneGraph graph = AbaloneGraph.get();
+		if(color==MarbleColor.WHITE) {
 
-		for(Node from: graph.getPopulatedNodes(color))
-		{
-			// for each neighbor of non-empty node
-			for(Node to: from.getNeighbors())
+			for(LightNode lightFrom: _layer.getNodes(color)){
+				{
+					// for each neighbor of non-empty node
+					Node heavyFrom = AbaloneGraph.get().getVertex(lightFrom._col, lightFrom._row);
+
+					for(Node to: heavyFrom.getNeighbors())
+					{
+						// if space is empty, add to SimpleMoves
+						if (_layer.isEmpty(to._col, to._row)) _whiteSimple.add(new SimpleMove(heavyFrom, to));
+					}
+				}
+			}
+			return _whiteSimple;
+		}
+
+		for(LightNode lightFrom: _layer.getNodes(color)){
 			{
-				// if space is empty, add to SimpleMoves
-				if (_layer.isEmpty(to._col, to._row)) _simple.add(new SimpleMove(from, to));
+				// for each neighbor of non-empty node
+				Node heavyFrom = AbaloneGraph.get().getVertex(lightFrom._col, lightFrom._row);
+
+				for(Node to: heavyFrom.getNeighbors())
+				{
+					// if space is empty, add to SimpleMoves
+					if (_layer.isEmpty(to._col, to._row)) _blackSimple.add(new SimpleMove(heavyFrom, to));
+				}
 			}
 		}
-		return _simple;
+		return _blackSimple;
 	}
+
+
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////
@@ -70,44 +98,45 @@ public class NonPushMoveGenerator
 	////////////////////////////////////////////////////////////////////////////////////////
 	//should be private
 
-	private void makeShiftLineMove(Line line, Node candidate)
+	private void makeShiftLineMove(Line line, Node candidate, MarbleColor color)
 	{
-		if (_layer.isEmpty(candidate._col, candidate._row)) _shift.add(new ShiftLine(line, candidate));
+		if (_layer.isEmpty(candidate._col, candidate._row) && _layer.isValid(candidate._col, candidate._row) && color==MarbleColor.WHITE) _whiteShift.add(new ShiftLine(line, candidate));
+		if (_layer.isEmpty(candidate._col, candidate._row) && _layer.isValid(candidate._col, candidate._row) && color==MarbleColor.BLACK) _blackShift.add(new ShiftLine(line, candidate));
 	}
 
 	//adds all right to left diag line moves to list
-	private void addRightToLeftDiag(Line line) 
+	private void addRightToLeftDiag(Line line, MarbleColor color) 
 	{
 		//if line is not right to left, return
 		if (line.getDirection()!=Direction.RIGHTTOLEFTDIAG) return;
 		{
-			makeShiftLineMove(line, new Node((line.getLowerEndpoint()._col),line.getLowerEndpoint()._row-1));
+			makeShiftLineMove(line, new Node((line.getLowerEndpoint()._col),line.getLowerEndpoint()._row-1), color);
 
-			makeShiftLineMove(line, new Node((line.getUpperEndpoint()._col) , line.getUpperEndpoint()._row+1));
+			makeShiftLineMove(line, new Node((line.getUpperEndpoint()._col), line.getUpperEndpoint()._row+1),color);
 		}
 	}
 
 	//adds all left to right diag line moves to list
-	private void addLeftToRightDiag(Line line)
+	private void addLeftToRightDiag(Line line, MarbleColor color)
 	{
 		//if line is not left to right, return
 		if(line.getDirection() != Direction.LEFTTORIGHTDIAG) return;
 		{
-			makeShiftLineMove(line, new Node( (char) (line.getLowerEndpoint()._col-1),line.getLowerEndpoint()._row-1));
+			makeShiftLineMove(line, new Node( (char) (line.getLowerEndpoint()._col-1),line.getLowerEndpoint()._row-1), color);
 
-			makeShiftLineMove(line, new Node((char) (line.getUpperEndpoint()._col+1) , line.getUpperEndpoint()._row+1));
+			makeShiftLineMove(line, new Node((char) (line.getUpperEndpoint()._col+1) , line.getUpperEndpoint()._row+1), color);
 		}
 	}
-	
+
 	//adds all horizontal line moves to list
-	private void addHorizontal(Line line) 
+	private void addHorizontal(Line line, MarbleColor color) 
 	{
 		//if line is not horizontal, return
 		if(line.getDirection() != Direction.HORIZONTAL) return;
 		{
-			makeShiftLineMove(line,new Node((char) (line.getLowerEndpoint()._col-1),line.getLowerEndpoint()._row));
+			makeShiftLineMove(line,new Node((char) (line.getLowerEndpoint()._col-1),line.getLowerEndpoint()._row), color);
 
-			makeShiftLineMove(line,new Node((char) (line.getUpperEndpoint()._col+1) , line.getUpperEndpoint()._row));
+			makeShiftLineMove(line,new Node((char) (line.getUpperEndpoint()._col+1) , line.getUpperEndpoint()._row), color);
 		}
 	}
 
@@ -115,26 +144,42 @@ public class NonPushMoveGenerator
 	//computes all possible shifts for lines 2 and 3
 	public ArrayList<ShiftLine> computeAllShifts(MarbleColor color)
 	{
+		if(color==MarbleColor.WHITE) {
+			//gets possible shifts for all lines 
+			for (Line line : _lineComp.getLines(2, color))
+			{
+				addRightToLeftDiag(line, color);
+				addLeftToRightDiag(line,color);
+				addHorizontal(line,color);
+			}
+			for(Line line : _lineComp.getLines(3, color)) {
+				addRightToLeftDiag(line,color);
+				addLeftToRightDiag(line,color);
+				addHorizontal(line, color);
+			}
+
+			return _whiteShift;
+		}
 		//gets possible shifts for all lines 
 		for (Line line : _lineComp.getLines(2, color))
 		{
-			addRightToLeftDiag(line);
-			addLeftToRightDiag(line);
-			addHorizontal(line);
+			addRightToLeftDiag(line, color);
+			addLeftToRightDiag(line,color);
+			addHorizontal(line,color);
 		}
 		for(Line line : _lineComp.getLines(3, color)) {
-			addRightToLeftDiag(line);
-			addLeftToRightDiag(line);
-			addHorizontal(line);
+			addRightToLeftDiag(line,color);
+			addLeftToRightDiag(line,color);
+			addHorizontal(line, color);
 		}
 
-		return _shift;
+		return _blackShift;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////SideStep Calculation/////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////
@@ -142,18 +187,32 @@ public class NonPushMoveGenerator
 	//gathers all possible sidesteps into one ArrayList
 	public ArrayList<SideStep> computeAllSideSteps(MarbleColor color)
 	{
-		//goes through every line and computes sidesteps for those lines
+
+		if (color== MarbleColor.WHITE) {
+			//goes through every line and computes sidesteps for those lines
+			for (Line line : _lineComp.getLines(2, color))
+			{
+				_whiteSideStep.addAll(computeSideStep(line));
+			}
+
+			for (Line line : _lineComp.getLines(3, color)) {
+				_whiteSideStep.addAll(computeSideStep(line));
+			}
+
+			return _whiteSideStep;
+		}
 		for (Line line : _lineComp.getLines(2, color))
 		{
-			_sideStep.addAll(computeSideStep(line));
+			_blackSideStep.addAll(computeSideStep(line));
 		}
-		
+
 		for (Line line : _lineComp.getLines(3, color)) {
-			_sideStep.addAll(computeSideStep(line));
+			_blackSideStep.addAll(computeSideStep(line));
 		}
-		
-		return _sideStep;
+
+		return _blackSideStep;
 	}
+
 
 	//computes all possible sidesteps for a single line
 	public ArrayList<SideStep> computeSideStep(Line ell)
@@ -199,7 +258,7 @@ public class NonPushMoveGenerator
 			if (!_layer.isEmpty(neighborNE._col, neighborNE._row)) return null;
 		}
 		// Build SideStep object representing this legitimate move.
-		
+
 		return new SideStep(line, HexagonCardinalDirections.NORTHEAST);
 
 	}

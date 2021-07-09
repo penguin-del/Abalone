@@ -47,22 +47,22 @@ public class SideStep extends LineMove
 					break;
 					
 				case SOUTHEAST:
-					Node se = node.getEast();
+					Node se = node.getSouthEast();
 					newLayer.add(se._col, se._row, color);
 					break;
 					
 				case SOUTHWEST:
-					Node sw = node.getEast();
+					Node sw = node.getSouthWest();
 					newLayer.add(sw._col, sw._row, color);
 					break;
 
 				case WEST:
-					Node w = node.getEast();
+					Node w = node.getWest();
 					newLayer.add(w._col, w._row, color);
 					break;
 
 				case NORTHWEST:
-					Node nw = node.getEast();
+					Node nw = node.getNorthWest();
 					newLayer.add(nw._col, nw._row, color);
 					break;
 
@@ -137,6 +137,7 @@ public class SideStep extends LineMove
 	@Override
 	public boolean equals (Object obj)
 	{
+		if(!(obj instanceof SideStep)) return false;
 		return sSEquals((SideStep) obj);
 	}
 

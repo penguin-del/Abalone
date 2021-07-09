@@ -623,7 +623,6 @@ class ShapeIdentifierTest {
 		
 		para9.addToParallelogram(line3);
 		testParasType3.add(para9);
-		System.out.print(para9 + "\n");
 		
 		assertEquals(si.getParallelograms(3,MarbleColor.WHITE), testParasType3);
 	}

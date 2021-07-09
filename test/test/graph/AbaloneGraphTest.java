@@ -226,12 +226,12 @@ class AbaloneGraphTest {
 		Layer layer = Layer.getDefaultBoard();
 		
 		//nonexistent spaces
-		assertEquals(layer.contains('H', 11), null);
+		assertEquals(layer.contains('H', 11), MarbleColor.INVALID);
 		assertNotEquals(layer.contains('H', 11), MarbleColor.BLACK);
 		assertNotEquals(layer.contains('H', 11), MarbleColor.EMPTY);
 		assertNotEquals(layer.contains('H', 11), MarbleColor.WHITE);
 
-		assertEquals(layer.contains('I', 3), null);
+		assertEquals(layer.contains('I', 3), MarbleColor.INVALID);
 		assertNotEquals(layer.contains('I', 3), MarbleColor.BLACK);
 		assertNotEquals(layer.contains('I', 3), MarbleColor.EMPTY);
 		assertNotEquals(layer.contains('I', 3), MarbleColor.WHITE);

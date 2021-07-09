@@ -28,14 +28,14 @@ public class LinePushLine extends Push
     {
 
 		//if destination isn't going off the board
-		if(isValidDestination())
+		if(layer.isValid(_destination._col,_destination._row))
         {
 			//if it is getting pushed toward its lowerEndPoint
-			if (_line.getLowerEndpoint().compareTo(_pushed.get(0)) > 0)
+			if (_line.getLowerEndpoint().compareTo(_pushed.getUpperEndpoint()) > 0)
 				return makeItOnBoard(layer, _pushed.getUpperEndpoint(), _line.getUpperEndpoint());
 
-			if (_line.getLowerEndpoint().compareTo(_pushed.getUpperEndpoint()) > 0)
-				return makeItOffBoard(layer, _pushed.getUpperEndpoint(), _line.getUpperEndpoint());
+//			if (_line.getUpperEndpoint().compareTo(_pushed.getLowerEndpoint()) < 0)
+				return makeItOnBoard(layer, _pushed.getLowerEndpoint(), _line.getLowerEndpoint());
 		}
 
 		//if it is pushing off edge, checks to see which way we are pushing, toward LowerEndPoint or UpperEndPoint
@@ -52,11 +52,11 @@ public class LinePushLine extends Push
 		//
 		// Remove the pushed marble and shift it to the destination
 		MarbleColor pushColor = layer.remove(pushed._col, pushed._row);		
-		layer.add(_destination._col, _destination._row, pushColor);
+		newLayer.add(_destination._col, _destination._row, pushColor);
 				
 		// Remove the line marble at the endpoint...it will be shifted to the _pushed position
-		MarbleColor shovingColor = layer.remove(shoving._col, shoving._row);
-		layer.add(pushed._col, pushed._row, shovingColor);
+		MarbleColor shovingColor = newLayer.remove(shoving._col, shoving._row);
+		newLayer.add(pushed._col, pushed._row, shovingColor);
 		
 		return newLayer;
 	}
@@ -89,13 +89,12 @@ public class LinePushLine extends Push
 	{
 		Layer newLayer = layer.getClone();
 
-		//
 		// Remove the pushed marble and shift it to the destination
-		layer.remove(pushed._col, pushed._row);
+		newLayer.remove(pushed._col, pushed._row);
 				
 		// Remove the line marble at the endpoint...it will be shifted to the _pushed position
-		MarbleColor shovingColor = layer.remove(shoving._col, shoving._row);
-		layer.add(pushed._col, pushed._row, shovingColor);
+		MarbleColor shovingColor = newLayer.remove(shoving._col, shoving._row);
+		newLayer.add(pushed._col, pushed._row, shovingColor);
 		
 		return newLayer;
 	}

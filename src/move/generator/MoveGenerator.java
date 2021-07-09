@@ -8,81 +8,143 @@ import move.representation.Move;
 public class MoveGenerator
 {
 	// All possible moves
-	protected ArrayList<Move> _allMoves;
+	protected ArrayList<Move> _allWhiteMoves;
+	protected ArrayList<Move> _allBlackMoves;
 
-	protected ArrayList<Move> _simpleMoves;
+	protected ArrayList<Move> _simpleWhiteMoves;
+	protected ArrayList<Move> _simpleBlackMoves;
 
+	protected ArrayList<Move> _shiftWhiteLines;
+	protected ArrayList<Move> _shiftBlackLines;
+
+	protected ArrayList<Move> _sideWhiteSteps;
+	protected ArrayList<Move> _sideBlackSteps;
 	// All PushMoves: LinePushNode and LinePushLine
-	protected ArrayList<Move> _pushMoves;
+	protected ArrayList<Move> _pushWhiteMoves;
+	protected ArrayList<Move> _pushBlackMoves;
 
-	protected ArrayList<Move> _shiftLines;
 
-	protected ArrayList<Move> _sideSteps;
+
 
 	protected Layer _layer;
 
 	//create ArrayList of each move up here, then method that calls each compute all only if empty.
 	public MoveGenerator(Layer layer)
 	{
-		_simpleMoves= new ArrayList<Move>();
-		_pushMoves= new ArrayList<Move>();
-		_shiftLines= new ArrayList<Move>();
-		_sideSteps= new ArrayList<Move>();
-		_allMoves= new ArrayList<Move>();
+		_simpleWhiteMoves= new ArrayList<Move>();
+		_simpleBlackMoves= new ArrayList<Move>();
+		_pushWhiteMoves= new ArrayList<Move>();
+		_pushBlackMoves= new ArrayList<Move>();
+		_shiftWhiteLines= new ArrayList<Move>();
+		_shiftBlackLines= new ArrayList<Move>();
+		_sideWhiteSteps= new ArrayList<Move>();
+		_sideBlackSteps= new ArrayList<Move>();
+		_allWhiteMoves= new ArrayList<Move>();
+		_allBlackMoves= new ArrayList<Move>();
 		_layer = layer;
 	}
 
 	public ArrayList<Move> computeAllSimpleMove(MarbleColor color)
 	{
-		if(!_simpleMoves.isEmpty()) return _simpleMoves;
+		if(color==MarbleColor.WHITE) {
+			if(!_simpleWhiteMoves.isEmpty()) return _simpleWhiteMoves;
+
+			NonPushMoveGenerator npm = new NonPushMoveGenerator(_layer);
+
+			_simpleWhiteMoves.addAll(npm.computeAllSimple(color));
+
+			return _simpleWhiteMoves;
+		}
+
+		if(!_simpleBlackMoves.isEmpty()) return _simpleBlackMoves;
 
 		NonPushMoveGenerator npm = new NonPushMoveGenerator(_layer);
 
-		_simpleMoves.addAll(npm.computeAllSimple(color));
+		_simpleBlackMoves.addAll(npm.computeAllSimple(color));
 
-		return _simpleMoves;
+		return _simpleBlackMoves;
 	}
 
 	public ArrayList<Move> computeAllShiftLine(MarbleColor color)
 	{
-		if(!_shiftLines.isEmpty()) return _shiftLines;
+		if(color==MarbleColor.WHITE) {
+			if(!_shiftWhiteLines.isEmpty()) return _shiftWhiteLines;
+
+			NonPushMoveGenerator npm = new NonPushMoveGenerator(_layer);
+			_shiftWhiteLines.addAll(npm.computeAllShifts(color));
+
+			return _shiftWhiteLines;
+		}
+
+		if(!_shiftBlackLines.isEmpty()) return _shiftBlackLines;
 
 		NonPushMoveGenerator npm = new NonPushMoveGenerator(_layer);
-		_shiftLines.addAll(npm.computeAllShifts(color));
+		_shiftBlackLines.addAll(npm.computeAllShifts(color));
 
-		return _shiftLines;
+		return _shiftBlackLines;
 	}
 
 	public ArrayList<Move> computeAllSideStep(MarbleColor color)
 	{
-		if(!_sideSteps.isEmpty()) return _sideSteps;
+		if (color==MarbleColor.WHITE) {
+			if(!_sideWhiteSteps.isEmpty()) return _sideWhiteSteps;
+
+			NonPushMoveGenerator npm = new NonPushMoveGenerator(_layer);
+			_sideWhiteSteps.addAll(npm.computeAllSideSteps(color));
+
+			return _sideWhiteSteps;
+		}
+
+		if(!_sideBlackSteps.isEmpty()) return _sideBlackSteps;
 
 		NonPushMoveGenerator npm = new NonPushMoveGenerator(_layer);
-		_sideSteps.addAll(npm.computeAllSideSteps(color));
+		_sideBlackSteps.addAll(npm.computeAllSideSteps(color));
 
-		return _sideSteps;
+		return _sideBlackSteps;
 	}
 
 	public ArrayList<Move> computeAllPushMoves(MarbleColor color)
 	{
-		if(!_pushMoves.isEmpty()) return _pushMoves;
+		if (color==MarbleColor.WHITE) {
+			if(!_pushWhiteMoves.isEmpty()) return _pushWhiteMoves;
+
+			LinePushLineMoveGenerator lpl = new LinePushLineMoveGenerator(_layer);
+			_pushWhiteMoves.addAll(lpl.computeAllLinePushLine(color));
+
+			LinePushNodeMoveGenerator lpn = new LinePushNodeMoveGenerator(_layer);
+			_pushWhiteMoves.addAll(lpn.computeAllLinePushNodes(color));
+
+			return _pushWhiteMoves;
+		}
+		
+		if(!_pushBlackMoves.isEmpty()) return _pushBlackMoves;
 
 		LinePushLineMoveGenerator lpl = new LinePushLineMoveGenerator(_layer);
-		_pushMoves.addAll(lpl.computeAllLinePushLine(color));
+		_pushBlackMoves.addAll(lpl.computeAllLinePushLine(color));
 
 		LinePushNodeMoveGenerator lpn = new LinePushNodeMoveGenerator(_layer);
-		_pushMoves.addAll(lpn.computeAllLinePushNodes(color));
+		_pushBlackMoves.addAll(lpn.computeAllLinePushNodes(color));
 
-		return _pushMoves;
+		return _pushBlackMoves;
 	}
 
 	public ArrayList<Move> computeAllMoves(MarbleColor color)
 	{
-		_allMoves.addAll(computeAllPushMoves(color));
-		_allMoves.addAll(computeAllSideStep(color));
-		_allMoves.addAll(computeAllShiftLine(color));
-		_allMoves.addAll(computeAllSimpleMove(color));
+		if (color==MarbleColor.WHITE) {
+			_allWhiteMoves.addAll(computeAllPushMoves(color));
+			_allWhiteMoves.addAll(computeAllSideStep(color));
+			_allWhiteMoves.addAll(computeAllShiftLine(color));
+			_allWhiteMoves.addAll(computeAllSimpleMove(color));
 
-		return _allMoves;
+			return _allWhiteMoves;
+		}
+		else {
+			_allBlackMoves.addAll(computeAllPushMoves(color));
+			_allBlackMoves.addAll(computeAllSideStep(color));
+			_allBlackMoves.addAll(computeAllShiftLine(color));
+			_allBlackMoves.addAll(computeAllSimpleMove(color));
+
+			return _allBlackMoves;
+		}
 	}
 }

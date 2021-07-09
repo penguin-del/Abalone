@@ -327,7 +327,6 @@ public class ShapeIdentifier {
 					
 					if (!(isEqual)) {
 						singlePara.addToList(paraList);	
-						System.out.print(singlePara + "\n");
 					}
 				}
 
@@ -343,7 +342,6 @@ public class ShapeIdentifier {
 					
 					if (!(isEqual)) {
 						singlePara.addToList(paraList);	
-						System.out.print(singlePara + "\n");
 					}
 				}
 				index++;

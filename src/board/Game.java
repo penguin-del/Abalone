@@ -29,17 +29,16 @@ public class Game
 
 	public MarbleColor play()
 	{
-		MarbleCounter counter = new MarbleCounter(Constants.NUM_STARTING_MARBLES, Constants.NUM_STARTING_MARBLES);
-
 		Layer currentLayer = _rootLayer; 
 		// limit # turns to guarantee termination
-		for (int turns = 1; turns <= _MAX_TURNS; turns++)
+		for (int turns = 0; turns < _MAX_TURNS; turns++)
 		{
 			// Player 1 makes a move and then check player 2 lose condition
 			_blackMoves += 1;
 			_player1.takeTurn(currentLayer, Constants.PLAYER_1__STARTING_COLOR);
+//			System.out.print(currentLayer);
 			//if () counter.pushedOff(MarbleColor.WHITE);
-			if (counter.getWhiteMarbles() == 8) {
+			if (currentLayer._white.size() == 8) {
 				//System.out.print(numturns+ "\n");
 				return MarbleColor.BLACK;
 			}
@@ -50,8 +49,9 @@ public class Game
 			//Player 2 makes a move and then check player 1 lose condition
 			_whiteMoves +=1;
 			_player2.takeTurn(currentLayer, Constants.PLAYER_2__STARTING_COLOR);
+//			System.out.print(currentLayer);
 			//if () counter.pushedOff(MarbleColor.BLACK);
-			if (counter.getNumBlackMarbles() == 8) {
+			if (currentLayer._black.size() == 8) {
 				//System.out.print(numturns+ "\n"); 
 				return MarbleColor.WHITE; 
 			}

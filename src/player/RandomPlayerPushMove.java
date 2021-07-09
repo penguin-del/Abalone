@@ -25,6 +25,7 @@ public class RandomPlayerPushMove extends AbstractPlayer
 		_mg = new NonPushMoveGenerator(layer);
 		_LpushN = new LinePushNodeMoveGenerator(layer);
 		_LpushL = new LinePushLineMoveGenerator(layer);
+		_playablePushMoves = new ArrayList<Move>();
 		
 		//initializes these constructors to contain all possible push moves
 		_playablePushMoves.addAll(_LpushL.computeAllLinePushLine(color));

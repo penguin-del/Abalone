@@ -62,7 +62,7 @@ public class Layer implements Cloneable
 
 			// If the light nodes aren't equal but the rows are, we are looking at the Horizontal case.
 			if (this._row == that._row) {
-				
+
 				//In this case the light node with the larger column is considered greater
 				if ((int) this._col > (int) that._col) return 1;
 				return -1;
@@ -104,22 +104,22 @@ public class Layer implements Cloneable
 
 	public void addBlack(char c, int i) { _black.add(new LightNode(c,i)); }
 	public void addWhite(char c, int i) { _white.add(new LightNode(c,i)); }
-	
+
 	public void add(char c, int i, MarbleColor color)
 	{
 		switch(color)
 		{
-			case BLACK:
-				addBlack(c, i);
-				return;
+		case BLACK:
+			if (isValid(c,i)) addBlack(c, i);
+			return;
 
-			case WHITE:
-				addWhite(c, i);
-				return;
+		case WHITE:
+			if (isValid(c,i)) addWhite(c, i);
+			return;
 
-			case EMPTY:
-			case INVALID:
-				System.err.println("Attempting to add an empty or invalid color Layer::add");
+		case EMPTY:
+		case INVALID: //Ask Alvin!
+			System.err.println("Attempting to add an empty or invalid color Layer::add"+c+" "+i);
 		}
 	}
 
@@ -154,8 +154,8 @@ public class Layer implements Cloneable
 	 */
 	public Marble.MarbleColor contains(char c, int i)
 	{
-		if (!AbaloneGraph.get().hasVertex(c, i)) return null;
-		
+		if(!isValid(c,i)) return MarbleColor.INVALID;
+
 		if (containsWhite(c, i)) return MarbleColor.WHITE;
 
 		if (containsBlack(c, i)) return MarbleColor.BLACK;		
@@ -172,6 +172,10 @@ public class Layer implements Cloneable
 		return true;
 	}
 
+	public boolean isValid(char c, int i) {
+		return (AbaloneGraph.get().hasVertex(c,i));
+	}
+
 	public boolean containsWhite(char c, int i)
 	{
 		return _white.contains(new LightNode(c, i));
@@ -186,10 +190,10 @@ public class Layer implements Cloneable
 	{
 		switch(color)
 		{
-			case WHITE: return _white;
-			case BLACK: return _black;
-			default:
-				System.err.println("Unexpected color in Layer::getNodes");
+		case WHITE: return _white;
+		case BLACK: return _black;
+		default:
+			System.err.println("Unexpected color in Layer::getNodes");
 		}
 
 		// Return an empty by default
@@ -298,7 +302,7 @@ public class Layer implements Cloneable
 		//loops through just row 3 and adds top three marbles
 		for (char c = 'C'; c < 'F'; c++)
 		{
-			layer.addBlack(c,3);
+			layer.addBlack(c , 3);
 		}
 
 		//loops through just row 7 and adds 3 marbles
@@ -323,6 +327,54 @@ public class Layer implements Cloneable
 		return layer;
 	}
 
+	public String toString(Layer layer)
+	{
+		String board = "";
+
+		final int FIRST_ROW = 1;
+		final int LAST_ROW = 9;
+		final char FIRST_COLUMN = 'A';
+		final char LAST_COLUMN = 'I';
+		for (int r = FIRST_ROW; r <= LAST_ROW; r++)
+		{ 
+			String spaceString = "";
+			if (r == 1 || r == 9) spaceString += "    ";
+			if (r == 2 || r == 8) spaceString += "   ";
+			if (r == 3 || r == 7) spaceString += "  ";
+			if (r == 4 || r == 6) spaceString += " ";
+
+			board += spaceString;
+
+			for (char c = FIRST_COLUMN ; c <= LAST_COLUMN; c++)
+			{
+				// If the node does not exist on the board, disregard it,
+				// otherwise accumulate Marbles / colors.
+				if (AbaloneGraph.get().hasVertex(c, r))
+				{
+					switch (layer.contains(c,  r))
+					{
+					case BLACK:
+						board += "B ";
+						break;
+					case WHITE:
+						board += "W" +" ";
+						break;
+					case EMPTY:
+						board += "E" +" ";
+						break;
+					case INVALID:
+						System.err.println("Unexpected INVALID; should not be possible");
+						break;
+					default:
+						System.err.println("This should not be possible");
+					}
+				}
+			}
+			board += spaceString;
+			board += "\n";
+		}
+		return board;
+	}
 	//	public static void main(String[] args)
 	//    {	
 	//		//Dumps both arraylist of white and arraylist of black marbles into the console.

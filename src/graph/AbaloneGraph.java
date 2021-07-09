@@ -214,22 +214,24 @@ public class AbaloneGraph
 		}
 	}
 
-	public ArrayList<Node> getPopulatedNodes(MarbleColor color){
+//	public ArrayList<Node> getPopulatedNodes(MarbleColor color, Layer layer){
 
 		//Gets a set of all the nodes in the graph and initializes an empty array list
-		Iterable<Node> nodeList= _vertices.keys();
-		ArrayList <Node> populatedNodes = new ArrayList<Node>();
-
-		//for all the nodes, checks to see if the node is populated with a piece. 
-		//If so then we add that node to the array list
-		for (Node space : nodeList) {
-			//Node vertex = getVertex(space._col, space._row);
-			if (_vertices.getValue(space) == color) {
-				populatedNodes.add(space);
-			}
-		}
-		return populatedNodes;
-	}
+//		Iterable<Node> nodeList= _vertices.keys();
+//		ArrayList <Node> populatedNodes = new ArrayList<Node>();
+//
+//		//for all the nodes, checks to see if the node is populated with a piece. 
+//		//If so then we add that node to the array list
+//		for (Node space : nodeList) {
+//			//Node vertex = getVertex(space._col, space._row);
+//			if (_vertices.getValue(space) == color) {
+//				populatedNodes.add(space);
+//			}
+//		}
+//		return populatedNodes;
+//		
+	
+//	}
 
 //	//flips color of given Node
 //	public MarbleColor flipColor(Node node)

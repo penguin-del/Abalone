@@ -65,11 +65,11 @@ public class SimpleMove extends Move
 		switch(color)
 		{
 			case WHITE:
-				newLayer.addWhite(_from._col, _from._row);
+				newLayer.addWhite(_to._col, _to._row);
 				break;
 
 			case BLACK:
-				newLayer.addBlack(_from._col, _from._row);
+				newLayer.addBlack(_to._col, _to._row);
 				break;
 
 			case EMPTY:
