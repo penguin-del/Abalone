@@ -54,8 +54,11 @@ public class Layer implements Cloneable
 {
 	public final static int _NUM_BOARD_POSITIONS = 61; // AbaloneGraph.get().size();
 	protected BitSet _board;
+
 	protected boolean _hasWhiteBeenChanged;
 	protected boolean _hasBlackBeenChanged;
+
+	protected boolean _hasBeenChanged;
 	protected ArrayList<LightNode> _whiteNodes;
 	protected ArrayList<LightNode> _blackNodes;
 	
@@ -68,6 +71,7 @@ public class Layer implements Cloneable
 	public Layer()
 	{
 		_board = new BitSet(_NUM_BOARD_POSITIONS * 2);
+
 		_hasWhiteBeenChanged = true;
 		_hasBlackBeenChanged = true;
 	}
@@ -164,6 +168,7 @@ public class Layer implements Cloneable
 			 _blackNodes = nodes;
 			 _hasBlackBeenChanged = false;
 		 }
+
 		return nodes;
 	}
 	
@@ -230,6 +235,7 @@ public class Layer implements Cloneable
 		// 01
 		_board.clear(index);
 		_board.set(index + 1);
+
 		_hasBlackBeenChanged = true;
 	}
 
@@ -247,11 +253,13 @@ public class Layer implements Cloneable
 		// 00
 		_board.clear(index);
 		_board.clear(index + 1);
+		_hasBeenChanged = true;
 	}
 
 	public MarbleColor remove(char col, int row)
 	{
 		MarbleColor color = contains(col , row);
+
 		if (color == MarbleColor.BLACK) _hasBlackBeenChanged = true;
 		if (color == MarbleColor.WHITE) _hasWhiteBeenChanged = true;
 		makeEmpty(col, row);	
