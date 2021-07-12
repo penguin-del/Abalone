@@ -20,51 +20,46 @@ public class ShiftLine extends LineMove
 		_to = to;
 	}
 
-	//checks to see if 2 ShiftLines are equal
-	@Override
-	public boolean equals (Object obj)
-	{
-		if(!(obj instanceof ShiftLine)) return false;
-		ShiftLine that = (ShiftLine) obj;
-		return smEquals(that);
-	}
-
-	public boolean smEquals(ShiftLine that)
-	{
-		return _line.equals(that._line) && _to.equals(that._to);
-	}
-
 	//Makes the actual move, instead of adding it as a possible move
-	//returns false because move is not going off board
 	@Override
-	public Layer makeMove(Layer layer)
+	public Layer makeMoveOnCopyBoard(Layer layer)
 	{
+		Layer newLayer = layer.getClone();
+		
+		makeMoveWithLayer(newLayer);
+		
+		return newLayer;
+	}
+	
+	@Override
+	public void makeMoveOnOriginalBoard(Layer layer) 
+	{
+		makeMoveWithLayer(layer);
+	}
+
+
+	private void makeMoveWithLayer(Layer layer) {
 		//for example with a line (B,2) (C,2) (D,2) that is trying to move to (A,2)
 		//first checks if (B,2) is greater than (A,2) which it is, so it takes the UpperEndPoint and moves that
 
-		if ((_line.getLowerEndpoint().compareTo(_to)) > 0) return makeIt(layer, _line.getUpperEndpoint());// return makeLowerEndPointMove(layer);
+		if ((_line.getLowerEndpoint().compareTo(_to)) > 0) makeIt(layer, _line.getUpperEndpoint());
 
 		//if moving toward lower endPoint, changing upperEndPoint value
-		return makeIt(layer, _line.getLowerEndpoint());
+		makeIt(layer, _line.getLowerEndpoint());
 	}
-
 	// Actually make the move
-	private Layer makeIt(Layer layer, Node from)
+	private void makeIt(Layer layer, Node from)
 	{
-		Layer newLayer = layer.getClone();
-
 		// Remove _to from the layer and grab the marble's color
-		MarbleColor color = newLayer.remove(from._col, from._row);
+		MarbleColor color = layer.remove(from._col, from._row);
 
 		if (color == MarbleColor.EMPTY || color == MarbleColor.INVALID)
 		{
 			System.err.println("Empty or invalid node in ShiftLine::makeIt");
-			return null;
+			return;
 		}
 
-		newLayer.add(_to._col, _to._row, color);
-
-		return newLayer;
+		layer.add(_to._col, _to._row, color);
 	}
 
 	// CTA: I've seen this code before...STOP COPYING-PASTING code.
@@ -89,18 +84,30 @@ public class ShiftLine extends LineMove
 		return false;
 	}
 
-//	public Line getFrom() {
-//		return _line;
-//	}
-//
-//	public Node getTo() {
-//		return _to;
-//	}
+	//checks to see if 2 ShiftLines are equal
+	@Override
+	public boolean equals (Object obj)
+	{
+		if(!(obj instanceof ShiftLine)) return false;
+		ShiftLine that = (ShiftLine) obj;
+		return smEquals(that);
+	}
+
+	public boolean smEquals(ShiftLine that)
+	{
+		return _line.equals(that._line) && _to.equals(that._to);
+	}
+
+	//	public Line getFrom() {
+	//		return _line;
+	//	}
+	//
+	//	public Node getTo() {
+	//		return _to;
+	//	}
 
 	@Override
 	public String toString() {
 		return "Line" + _line.toString() + "is moving to"+ _to.toSimpleString();
 	}
-
-
 }

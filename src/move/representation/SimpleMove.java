@@ -49,27 +49,33 @@ public class SimpleMove extends Move
 	 *  @param current -- an existing layer of marbles
 	 *  @return a copy of a layer with move made.
 	 */
-	public Layer makeMove(Layer current)
+	public Layer makeMoveOnCopyBoard(Layer current)
 	{
-		Layer newLayer = null;
-
-		try { newLayer = (Layer)current.clone(); }
-		catch(CloneNotSupportedException cne)
-		{
-			System.err.println("Cloning a Layer failed: " + current);
-			System.exit(1);
-		}
-
-		MarbleColor color = newLayer.remove(_from._col, _from._row);
+		Layer newLayer =current.getClone();
+		
+		makeMoveWithLayer(newLayer);
+		
+		return newLayer;
+	}
+	
+	//makes move on layer instead of making it on copy board
+	@Override
+	public void makeMoveOnOriginalBoard(Layer layer) {
+		makeMoveWithLayer(layer);
+	}
+	
+	private void makeMoveWithLayer(Layer layer) {
+	
+		MarbleColor color = layer.remove(_from._col, _from._row);
 
 		switch(color)
 		{
 			case WHITE:
-				newLayer.addWhite(_to._col, _to._row);
+				layer.addWhite(_to._col, _to._row);
 				break;
 
 			case BLACK:
-				newLayer.addBlack(_to._col, _to._row);
+				layer.addBlack(_to._col, _to._row);
 				break;
 
 			case EMPTY:
@@ -79,10 +85,7 @@ public class SimpleMove extends Move
 			case INVALID:
 				System.err.println("Unexpected INVALID move " + _from + " in " + this);
 		}
-
-		return newLayer;
 	}
-
 	@Override
 	//ASSUMES SIMPLEMOVE HAS BEEN CALCULATED, DOESN'T CHECK LEGITIMACY OF SIMPLEMOVE
 	public boolean moveApplies(Formation formation)
@@ -124,4 +127,6 @@ public class SimpleMove extends Move
 	public String toString() {
 		return _from.toSimpleString() + ", "+ _to.toSimpleString();
 	}
+
+
 }

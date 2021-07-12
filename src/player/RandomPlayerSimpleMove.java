@@ -27,7 +27,7 @@ public class RandomPlayerSimpleMove extends AbstractPlayer
 		if (_playableMoves.isEmpty()) {
 			System.out.print(_playableMoves);
 		}
-		return _playableMoves.get(LocalRandom.nextInt(_playableMoves.size())).makeMove(layer);
+		return _playableMoves.get(LocalRandom.nextInt(_playableMoves.size())).makeMoveOnCopyBoard(layer);
 		//randomly chooses an index to play  
 		//Random rand = new Random();
 		//int random_Move = rand.nextInt(_playableMoves.size());

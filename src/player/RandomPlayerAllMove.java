@@ -19,7 +19,7 @@ public class RandomPlayerAllMove extends AbstractPlayer
 		_allMoves = _mg.computeAllMoves(color);
 		
 		// Returns a new layer with the move made
-		return _allMoves.get(LocalRandom.nextInt(_allMoves.size())).makeMove(currLayer);
+		return _allMoves.get(LocalRandom.nextInt(_allMoves.size())).makeMoveOnCopyBoard(currLayer);
 //		
 //		//Since Move has five sub-methods to look through and each have different requirements for construction,
 //		//We will check the class of the move make methods to make moves for each one.

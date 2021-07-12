@@ -33,7 +33,7 @@ public class RandomPlayerSideStep extends AbstractPlayer{
 		if (_playableMoves.isEmpty()) {
 			return rpshift.takeTurn(layer, color);
 		}
-		return _playableMoves.get(LocalRandom.nextInt(_playableMoves.size())).makeMove(layer);
+		return _playableMoves.get(LocalRandom.nextInt(_playableMoves.size())).makeMoveOnCopyBoard(layer);
 //		else {
 
 			//randomly chooses the move to make
