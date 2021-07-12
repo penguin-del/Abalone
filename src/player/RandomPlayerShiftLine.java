@@ -32,7 +32,7 @@ public class RandomPlayerShiftLine extends AbstractPlayer{
 		if(_playableMoves.isEmpty()) {
 			return rpsimple.takeTurn(layer, color);
 		}
-		return _playableMoves.get(LocalRandom.nextInt(_playableMoves.size())).makeMove(layer);
+		return _playableMoves.get(LocalRandom.nextInt(_playableMoves.size())).makeMoveOnCopyBoard(layer);
 		//else {
 			//randomly chooses a move
 //			Random rand = new Random();

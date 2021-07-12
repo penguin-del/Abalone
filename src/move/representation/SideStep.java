@@ -22,117 +22,129 @@ public class SideStep extends LineMove
 	//makes the actual move on the board, instead of just suggesting possible moves
 	//returns false because move is not going off board
 	@Override
-	public Layer makeMove(Layer layer)
+	public Layer makeMoveOnCopyBoard(Layer layer)
 	{
 		Layer newLayer = layer.getClone();
+		
+		makeMoveWithLayer(newLayer);
+		
+		return newLayer;
+	}
 
+	@Override
+	public void makeMoveOnOriginalBoard(Layer layer) 
+	{
+		makeMoveWithLayer(layer);
+	}
+
+	private void makeMoveWithLayer(Layer layer) {
 		for (Node node : _line)
 		{
 			// Remove the marble from current location
-			MarbleColor color = newLayer.remove(node._col, node._row);
+			MarbleColor color = layer.remove(node._col, node._row);
 
 			//
 			// Relocate the marble based on directionality
 			//
 			switch(_direction)
 			{
-				case NORTHEAST:
-					Node ne = node.getNorthEast();
-					newLayer.add(ne._col, ne._row, color);
-					break;
+			case NORTHEAST:
+				Node ne = node.getNorthEast();
+				layer.add(ne._col, ne._row, color);
+				break;
 
-				case EAST:
-					Node e = node.getEast();
-					newLayer.add(e._col, e._row, color);
-					break;
-					
-				case SOUTHEAST:
-					Node se = node.getSouthEast();
-					newLayer.add(se._col, se._row, color);
-					break;
-					
-				case SOUTHWEST:
-					Node sw = node.getSouthWest();
-					newLayer.add(sw._col, sw._row, color);
-					break;
+			case EAST:
+				Node e = node.getEast();
+				layer.add(e._col, e._row, color);
+				break;
 
-				case WEST:
-					Node w = node.getWest();
-					newLayer.add(w._col, w._row, color);
-					break;
+			case SOUTHEAST:
+				Node se = node.getSouthEast();
+				layer.add(se._col, se._row, color);
+				break;
 
-				case NORTHWEST:
-					Node nw = node.getNorthWest();
-					newLayer.add(nw._col, nw._row, color);
-					break;
+			case SOUTHWEST:
+				Node sw = node.getSouthWest();
+				layer.add(sw._col, sw._row, color);
+				break;
 
-				default:
-					System.err.println("Unexpected: SideStep::makeMove");
+			case WEST:
+				Node w = node.getWest();
+				layer.add(w._col, w._row, color);
+				break;
+
+			case NORTHWEST:
+				Node nw = node.getNorthWest();
+				layer.add(nw._col, nw._row, color);
+				break;
+
+			default:
+				System.err.println("Unexpected: SideStep::makeMove");
 			}
 		}
-		return newLayer;
 	}
-	//
-//	private boolean makeNorthEastSideStep(BoardGame bg)
-//	{
-//
-//		//making it into vertex, so can get neighbors
-//		Node v= bg.getBoard().getVertex(_line.get(i));
-//		bg.getBoard().changeValue(v.getNorthEast(), bg.getBoard().getValue(_line.getUpperEndpoint()));
-//		bg.getBoard().changeValue(_line.get(i), MarbleColor.EMPTY);
-//	}
-//
-//	private boolean makeEastSideStep(BoardGame bg) {
-//		for (int i=0; i<_line.size();i++) {
-//			//making it into vertex, so can get neighbors
-//			Node v= bg.getBoard().getVertex(_line.get(i));
-//			bg.getBoard().changeValue(v.getEast(), bg.getBoard().getValue(_line.getUpperEndpoint()));
-//			bg.getBoard().changeValue(_line.get(i), MarbleColor.EMPTY);
-//		}
-//		return false;
-//	}
-//
-//	private boolean makeSouthEastSideStep(BoardGame bg) {
-//		for (int i=0; i<_line.size();i++) {
-//			//making it into vertex, so can get neighbors
-//			Node v= bg.getBoard().getVertex(_line.get(i));
-//			bg.getBoard().changeValue(v.getSouthEast(), bg.getBoard().getValue(_line.getUpperEndpoint()));
-//			bg.getBoard().changeValue(_line.get(i), MarbleColor.EMPTY);
-//		}
-//		return false;
-//	}
-//
-//	private boolean makeSouthWestSideStep(BoardGame bg) {
-//		for (int i=0; i<_line.size();i++) {
-//			//making it into vertex, so can get neighbors
-//			Node v= bg.getBoard().getVertex(_line.get(i));
-//			bg.getBoard().changeValue(v.getSouthWest(), bg.getBoard().getValue(_line.getUpperEndpoint()));
-//			bg.getBoard().changeValue(_line.get(i), MarbleColor.EMPTY);
-//		}
-//		return false;
-//	}
-//
-//	private boolean makeWestSideStep(BoardGame bg) {
-//		for (int i=0; i<_line.size();i++) {
-//			//making it into vertex, so can get neighbors
-//			Node v= bg.getBoard().getVertex(_line.get(i));
-//			bg.getBoard().changeValue(v.getWest(), bg.getBoard().getValue(_line.getUpperEndpoint()));
-//			bg.getBoard().changeValue(_line.get(i), MarbleColor.EMPTY);
-//		}
-//		return false;
-//	}
-//
-//	private boolean makeNorthWestSideStep(BoardGame bg) {
-//		for (int i=0; i<_line.size();i++) {
-//			//making it into vertex, so can get neighbors
-//			Node v= bg.getBoard().getVertex(_line.get(i));
-//			bg.getBoard().changeValue(v.getNorthWest(), bg.getBoard().getValue(_line.getUpperEndpoint()));
-//			bg.getBoard().changeValue(_line.get(i), MarbleColor.EMPTY);
-//		}
-//		return false;
-//	}
 
-	
+	//
+	//	private boolean makeNorthEastSideStep(BoardGame bg)
+	//	{
+	//
+	//		//making it into vertex, so can get neighbors
+	//		Node v= bg.getBoard().getVertex(_line.get(i));
+	//		bg.getBoard().changeValue(v.getNorthEast(), bg.getBoard().getValue(_line.getUpperEndpoint()));
+	//		bg.getBoard().changeValue(_line.get(i), MarbleColor.EMPTY);
+	//	}
+	//
+	//	private boolean makeEastSideStep(BoardGame bg) {
+	//		for (int i=0; i<_line.size();i++) {
+	//			//making it into vertex, so can get neighbors
+	//			Node v= bg.getBoard().getVertex(_line.get(i));
+	//			bg.getBoard().changeValue(v.getEast(), bg.getBoard().getValue(_line.getUpperEndpoint()));
+	//			bg.getBoard().changeValue(_line.get(i), MarbleColor.EMPTY);
+	//		}
+	//		return false;
+	//	}
+	//
+	//	private boolean makeSouthEastSideStep(BoardGame bg) {
+	//		for (int i=0; i<_line.size();i++) {
+	//			//making it into vertex, so can get neighbors
+	//			Node v= bg.getBoard().getVertex(_line.get(i));
+	//			bg.getBoard().changeValue(v.getSouthEast(), bg.getBoard().getValue(_line.getUpperEndpoint()));
+	//			bg.getBoard().changeValue(_line.get(i), MarbleColor.EMPTY);
+	//		}
+	//		return false;
+	//	}
+	//
+	//	private boolean makeSouthWestSideStep(BoardGame bg) {
+	//		for (int i=0; i<_line.size();i++) {
+	//			//making it into vertex, so can get neighbors
+	//			Node v= bg.getBoard().getVertex(_line.get(i));
+	//			bg.getBoard().changeValue(v.getSouthWest(), bg.getBoard().getValue(_line.getUpperEndpoint()));
+	//			bg.getBoard().changeValue(_line.get(i), MarbleColor.EMPTY);
+	//		}
+	//		return false;
+	//	}
+	//
+	//	private boolean makeWestSideStep(BoardGame bg) {
+	//		for (int i=0; i<_line.size();i++) {
+	//			//making it into vertex, so can get neighbors
+	//			Node v= bg.getBoard().getVertex(_line.get(i));
+	//			bg.getBoard().changeValue(v.getWest(), bg.getBoard().getValue(_line.getUpperEndpoint()));
+	//			bg.getBoard().changeValue(_line.get(i), MarbleColor.EMPTY);
+	//		}
+	//		return false;
+	//	}
+	//
+	//	private boolean makeNorthWestSideStep(BoardGame bg) {
+	//		for (int i=0; i<_line.size();i++) {
+	//			//making it into vertex, so can get neighbors
+	//			Node v= bg.getBoard().getVertex(_line.get(i));
+	//			bg.getBoard().changeValue(v.getNorthWest(), bg.getBoard().getValue(_line.getUpperEndpoint()));
+	//			bg.getBoard().changeValue(_line.get(i), MarbleColor.EMPTY);
+	//		}
+	//		return false;
+	//	}
+
+
 	//equals method to check if SideSteps are equal, for testing
 	@Override
 	public boolean equals (Object obj)
@@ -145,7 +157,7 @@ public class SideStep extends LineMove
 	{
 		return _line.equals(that._line) && _direction == that._direction;
 	}
-	
+
 
 	// CTA: Same code AGAIN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	@Override
@@ -166,7 +178,7 @@ public class SideStep extends LineMove
 		}
 		return false;
 	}
-	
+
 	@Override
 	public String toString()
 	{
@@ -176,6 +188,8 @@ public class SideStep extends LineMove
 
 
 
-	
+
+
+
 
 }

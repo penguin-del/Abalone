@@ -33,7 +33,7 @@ public class RandomPlayerPushMove extends AbstractPlayer
 		RandomPlayerShiftLine rpshift = new RandomPlayerShiftLine();
 		
 		//If push moves are avaliable, do them. Otherwise try shifting.
-		if (!(_playablePushMoves.isEmpty())) return _playablePushMoves.get(LocalRandom.nextInt(_playablePushMoves.size())).makeMove(layer);
+		if (!(_playablePushMoves.isEmpty())) return _playablePushMoves.get(LocalRandom.nextInt(_playablePushMoves.size())).makeMoveOnCopyBoard(layer);
 		return rpshift.takeTurn(layer, color);
 	}
 	

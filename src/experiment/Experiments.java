@@ -3,7 +3,6 @@ package experiment;
 import java.io.IOException;
 
 import player.RandomPlayerAllMove;
-import player.RandomPlayerPushMove;
 
 public class Experiments {
 
@@ -16,7 +15,7 @@ public class Experiments {
 	}
 	
 	public static void TwoPushMovers() throws IOException {
-		Experiment_Parameters params = new Experiment_Parameters(new RandomPlayerAllMove(), new RandomPlayerAllMove(), 5000, 1000);
+		Experiment_Parameters params = new Experiment_Parameters(new RandomPlayerAllMove(), new RandomPlayerAllMove(), 5000, 100);
 		
 		Experiment ex = new Experiment(params);
 		

@@ -54,6 +54,10 @@ public class Layer implements Cloneable
 {
 	public final static int _NUM_BOARD_POSITIONS = 61; // AbaloneGraph.get().size();
 	protected BitSet _board;
+
+	protected boolean _hasWhiteBeenChanged;
+	protected boolean _hasBlackBeenChanged;
+
 	protected boolean _hasBeenChanged;
 	protected ArrayList<LightNode> _whiteNodes;
 	protected ArrayList<LightNode> _blackNodes;
@@ -67,7 +71,9 @@ public class Layer implements Cloneable
 	public Layer()
 	{
 		_board = new BitSet(_NUM_BOARD_POSITIONS * 2);
-		_hasBeenChanged = true;
+
+		_hasWhiteBeenChanged = true;
+		_hasBlackBeenChanged = true;
 	}
 
 	protected Layer(BitSet copy)
@@ -131,10 +137,8 @@ public class Layer implements Cloneable
 	 */
 	public ArrayList<LightNode> getNodes(MarbleColor color)
 	{
-		if (_hasBeenChanged == false) {
-			if (color == MarbleColor.WHITE) return _whiteNodes;
-			if (color == MarbleColor.BLACK) return _blackNodes;
-		}
+		if (color == MarbleColor.WHITE &&_hasWhiteBeenChanged == false)  return _whiteNodes;
+		if (color == MarbleColor.BLACK && _hasBlackBeenChanged == false) return _blackNodes;
 		ArrayList<LightNode> nodes = new ArrayList<LightNode>();
 		
         //
@@ -156,9 +160,15 @@ public class Layer implements Cloneable
 				pos++; // Advance to next board positions
 			}
 		}
-		 if (color == MarbleColor.WHITE) _whiteNodes = nodes;
-		 if (color == MarbleColor.BLACK) _blackNodes = nodes;
-		_hasBeenChanged = false;
+		 if (color == MarbleColor.WHITE) {
+			 _whiteNodes = nodes;
+			 _hasWhiteBeenChanged = false;
+		 }
+		 if (color == MarbleColor.BLACK) {
+			 _blackNodes = nodes;
+			 _hasBlackBeenChanged = false;
+		 }
+
 		return nodes;
 	}
 	
@@ -208,7 +218,7 @@ public class Layer implements Cloneable
 		// 10
 		_board.set(index);
 		_board.clear(index + 1);
-		_hasBeenChanged = true;
+		_hasWhiteBeenChanged = true;
 	}
 
 	// BLACK is 01
@@ -225,7 +235,8 @@ public class Layer implements Cloneable
 		// 01
 		_board.clear(index);
 		_board.set(index + 1);
-		_hasBeenChanged = true;
+
+		_hasBlackBeenChanged = true;
 	}
 
 	// EMPTY is 00
@@ -248,6 +259,9 @@ public class Layer implements Cloneable
 	public MarbleColor remove(char col, int row)
 	{
 		MarbleColor color = contains(col , row);
+
+		if (color == MarbleColor.BLACK) _hasBlackBeenChanged = true;
+		if (color == MarbleColor.WHITE) _hasWhiteBeenChanged = true;
 		makeEmpty(col, row);	
 		return color;
 	}
