@@ -1,147 +1,165 @@
 package board;
-
 import java.util.ArrayList;
+import java.util.BitSet;
 
 import board.Marble.MarbleColor;
 import graph.AbaloneGraph;
-import subgraph.BFSMarkingColor.MarkingColor;
 
+/**
+ * We encode a layer as a set of bits.
+ * 
+ * Each pair of bits represents:
+ *    a position on the board.
+ *    the value of the marble at that position
+ *    
+ *  Marble Positions:
+ * 
+ * 	//   A1 B1 C1 D1 E1                B B B B B 
+	//  A2 B2 C2 D2 E2 F2    ----->   B B B B B B 
+	// A3 B3 C3 D3 E3 F3 G3          E E B B B E E
+	//         .
+	//         .       This picture displays the default board setting
+	//         .
+	// C7 D7 E7 F7 G7 H7 I7          E E W W W E E
+	//   D8 E8 F8 G8 H8 I8   ----->   W W W W W W
+	//     E9 F9 G9 H9 I9              W W W W W
+ * 
+ * Encoding positions in BitSet:
+ *   [A1, B1, C1, D1, E1, | A2, B2, C2, ..., I8 | E9, F9, G9, H9, I9]
+ *   
+ * How to map a (char, int) to bit position:
+ *   (char _col, int _row) -> [ROW_INDICES[row - 1] * 2 + (col - COL_OFFSET[row - 1]) * 2,
+ *                             ROW_INDICES[row - 1] * 2 + (col - COL_OFFSET[row - 1]) * 2 + 1]
+ *
+ *  Examples:
+ *    (A, 1) : 0 * 2 + ('A' - 'A') * 2 => [0, 1]
+ *    (E, 1) : 0 * 2 + ('E' - 'A') * 2 = 0 + 8 => [8, 9]
+ *
+ *    (A, 2) : 5 * 2 + ('A' - 'A') * 2 = 10 => [10, 11]
+ *    (E, 2) : 5 * 2 + ('E' - 'A') * 2 = 10 + 8 => [18, 19]
+ *
+ *    (I, 9) : 56 * 2 + ('I' - 'E') * 2 = 112 + 8 => [120, 121]
+ *  
+ * Encoding of marbles at positions:
+ *   Each position uses 2 bits:
+ *     00 - EMPTY
+ *     10 - WHITE
+ *     01 - BLACK
+ *     11 - unused
+ *  
+ * @author calvin
+ *
+ */
 public class Layer implements Cloneable
 {
-	protected ArrayList<LightNode> _white;
-	protected ArrayList<LightNode> _black;
+	public final static int _NUM_BOARD_POSITIONS = 61; // AbaloneGraph.get().size();
+	protected BitSet _board;
 
-	public final class LightNode implements Comparable<LightNode>
-	{
-		public char _col;
-		public int _row;
-		public MarkingColor _BFScolor;
+	// The 1-bit-based starting position of each row.
+	private final int[] ROW_INDICES = new int[]{0, 5, 11, 18, 26, 35, 43, 50, 56, 61};
 
-		public LightNode(char col, int row)
-		{
-			_col = col;
-			_row = row;
-			_BFScolor = MarkingColor.MARKINGWHITE;
-		}
-
-		@Override
-		public boolean equals(Object o)
-		{
-			if (!(o instanceof LightNode)) return false;
-
-			LightNode that = (LightNode) o;
-			return this._col == that._col && 
-					this._row == that._row;
-		}
-
-		//		Three cases for compareTo function to operate
-		//		Very similar to the actual node class. 
-		//	  \
-		//	   \   Left to Right Diagonal            On the graph:
-		//	    \                                     \      /
-		//	                                           \    /
-		//	  ---------- Horizontal                     \  /
-		//	                                     -------------------  
-		//	     /                                      /  \
-		//	    /  Right to Left Diagonal              /    \ 
-		//	   /                                      /      \
-		//	
-		// Given our naming convention, each case has a different pattern to follow.
-
-		@Override
-		public int compareTo(LightNode that) {
-			// If the light nodes are equal return that they are equal
-			if (this.equals(that))return 0;
-
-			//If the light nodes aren't equal but the columns are, we are looking at the Right to Left Diagonal case
-			if (this._col == that._col) {
-				//the light node with the larger row in this case will be considered greater
-				if (this._row > that._row) return 1;
-				return -1;
-			}
-
-			// If the light nodes aren't equal but the rows are, we are looking at the Horizontal case.
-			if (this._row == that._row) {
-
-				//In this case the light node with the larger column is considered greater
-				if ((int) this._col > (int) that._col) return 1;
-				return -1;
-			}
-			//By default the last case is Left to Right Diagonal. In this case one node has a larger row and column than the other
-			//Therefore we only need to compare the rows to figure out which node is greater
-			if (this._row > that._row) return 1;
-			return -1;
-		}
-
-		public String toString()
-		{
-			return "(" + _col + ", "+ _row + ")";
-		}
-	}
+	// The beginning character of each row.
+	private final char[] COL_OFFSET = new char[]{'A', 'A', 'A', 'A', 'A', 'B', 'C', 'D', 'E'};
 
 	public Layer()
 	{
-		_white = new ArrayList<LightNode>();
-		_black = new ArrayList<LightNode>();
+		_board = new BitSet(_NUM_BOARD_POSITIONS * 2);
 	}
 
-	// Overriding clone() method
-	// by simply calling Object class
-	// clone() method.
-	@Override
-	public Object clone() throws CloneNotSupportedException
+	protected Layer(BitSet copy)
 	{
-		return super.clone();
+		_board = copy;
 	}
 
-	//	public Layer(Layer that)
-	//	{
-	//		this();
-	//		
-	//		_white.addAll(that._white);
-	//		_black.addAll(that._black);
-	//	}
+	private int indexOf(char col, int row)
+	{
+		return (ROW_INDICES[row - 1] + col - COL_OFFSET[row - 1]) * 2;
+	}
 
-	public void addBlack(char c, int i) { _black.add(new LightNode(c,i)); }
-	public void addWhite(char c, int i) { _white.add(new LightNode(c,i)); }
+	private Marble.MarbleColor contains(int index)
+	{
+		//     00 - EMPTY
+		//     10 - WHITE
+		//     01 - BLACK
+		//     11 - unused
+		if (_board.get(index) && !_board.get(index + 1)) return MarbleColor.WHITE;
+		else if (!_board.get(index) && _board.get(index + 1)) return MarbleColor.BLACK;
+		else if (!_board.get(index) && !_board.get(index + 1)) return MarbleColor.EMPTY;
+		else if (_board.get(index) && _board.get(index + 1))
+		{
+			System.err.println("Invalid bits in contains.");
+			return MarbleColor.INVALID;
+		}
+		else
+		{
+			System.err.println("Impossible case in contains.");
+		}
+
+		return MarbleColor.INVALID;
+	}
 
 	public void add(char c, int i, MarbleColor color)
 	{
+		if (!isValid(c, i)) return;
+
 		switch(color)
 		{
-		case BLACK:
-			if (isValid(c,i)) addBlack(c, i);
-			return;
+			case BLACK:
+				addBlack(c, i);
+				break;
 
-		case WHITE:
-			if (isValid(c,i)) addWhite(c, i);
-			return;
+			case WHITE:
+				addWhite(c, i);
+				break;
 
-		case EMPTY:
-		case INVALID: //Ask Alvin!
-			System.err.println("Attempting to add an empty or invalid color Layer::add"+c+" "+i);
+			case EMPTY:
+			case INVALID:
+				System.err.println("Attempting to add an empty or invalid color Layer::add"
+						+ c + " " + i);
 		}
 	}
 
-	public boolean removeWhite(char c, int i)
-	{ 
-		return _white.remove(new LightNode(c,i));
-	}
-
-	public boolean removeBlack(char c, int i)
-	{ 
-		return _black.remove(new LightNode(c,i));
-	}
-
-	public MarbleColor remove(char c, int i)
+	/**
+	 * Return the positions where there are marbles of the given color.
+	 * 
+	 * @param color -- BLACK, WHITE, (perhaps EMPTY)
+	 * @return a list of LightNodes containing the positions of the desired color marbles
+	 */
+	public ArrayList<LightNode> getNodes(MarbleColor color)
 	{
-		if (removeWhite(c, i)) return MarbleColor.WHITE;
+		ArrayList<LightNode> nodes = new ArrayList<LightNode>();
+		
+        //
+		// Look at all board positions as loop terminator
+		//
+		int pos = 0;
+		for (int row = 1; pos < _NUM_BOARD_POSITIONS; row++)
+		{
+			// Columns
+			for (int c = 1; c <= ROW_INDICES[row] - ROW_INDICES[row - 1]; c++)
+			{
+				// Mapping position to the (char, int) positional information. 
+				char co = (char)(COL_OFFSET[row - 1] + c - 1);
+				int ro = row;
 
-		if (removeBlack(c, i)) return MarbleColor.BLACK;
+				// Check the bit-based position 
+				if (contains(pos * 2) == color) nodes.add(new LightNode(co, ro));
 
-		return MarbleColor.EMPTY;
+				pos++; // Advance to next board positions
+			}
+		}
+		
+		return nodes;
 	}
-
+	
+	//This function should only take in the colors white and black.
+	//It should not be used for empty or invalid nodes.
+	public int numMarblesLeft (MarbleColor color) {
+		
+		ArrayList<LightNode> marbleList = getNodes(color);
+		return marbleList.size();
+	}
+	
 	/**
 	 * Main lookup routine to identify what color mArble the given position
 	 * has in this layer.
@@ -154,61 +172,73 @@ public class Layer implements Cloneable
 	 */
 	public Marble.MarbleColor contains(char c, int i)
 	{
-		if(!isValid(c,i)) return MarbleColor.INVALID;
+		if (!isValid(c, i)) return MarbleColor.INVALID;
 
-		if (containsWhite(c, i)) return MarbleColor.WHITE;
-
-		if (containsBlack(c, i)) return MarbleColor.BLACK;		
-
-		return MarbleColor.EMPTY;
+		return contains(indexOf(c, i));
 	}
 
-	public boolean isEmpty(char c, int i)
+	public boolean isValid(char c, int i)
 	{
-		if (containsWhite(c, i)) return false;
-
-		if (containsBlack(c, i)) return false;
-
-		return true;
+		return AbaloneGraph.get().hasVertex(c,i);
 	}
 
-	public boolean isValid(char c, int i) {
-		return (AbaloneGraph.get().hasVertex(c,i));
-	}
-
-	public boolean containsWhite(char c, int i)
+	//
+	// WHITE is 10 
+	//
+	public boolean isWhite(char col, int row)
 	{
-		return _white.contains(new LightNode(c, i));
+		int index = indexOf(col, row);
+		return _board.get(index) && !_board.get(index + 1);
 	}
 
-	public boolean containsBlack(char c, int i)
+	public void addWhite(char col, int row)
 	{
-		return _black.contains(new LightNode(c, i));
+		int index = indexOf(col, row);
+
+		// 10
+		_board.set(index);
+		_board.clear(index + 1);
 	}
 
-	public ArrayList<LightNode> getNodes(MarbleColor color)
+	// BLACK is 01
+	public boolean isBlack(char col, int row)
 	{
-		switch(color)
-		{
-		case WHITE: return _white;
-		case BLACK: return _black;
-		default:
-			System.err.println("Unexpected color in Layer::getNodes");
-		}
-
-		// Return an empty by default
-		return new ArrayList<LightNode>();
+		int index = indexOf(col, row);
+		return !_board.get(index) && _board.get(index + 1);
 	}
 
-	/**
-	 * Does the given position on the Layer contain the SAME
-	 * color of the given Marble?
-	 * @param c -- row character
-	 * @param i -- column integer
-	 * @param color -- Color to check SAME of
-	 * @return FALSE if the given color or node in the Layer is EMPTY;
-	 *         otherwise check for SAME colors.
-	 */
+	public void addBlack(char col, int row)
+	{
+		int index = indexOf(col, row);
+
+		// 01
+		_board.clear(index);
+		_board.set(index + 1);
+	}
+
+	// EMPTY is 00
+	public boolean isEmpty(char col, int row)
+	{
+		int index = indexOf(col, row);
+		return !_board.get(index) && !_board.get(index + 1);
+	}
+
+	public void makeEmpty(char col, int row)
+	{
+		int index = indexOf(col, row);
+
+		// 00
+		_board.clear(index);
+		_board.clear(index + 1);
+	}
+
+	public MarbleColor remove(char col, int row)
+	{
+		MarbleColor color = contains(col , row);
+		makeEmpty(col, row);
+		return color;
+	}
+
 	public boolean containsSameColor(char c, int i, MarbleColor color)
 	{
 		if (color == MarbleColor.EMPTY) return false;
@@ -235,9 +265,7 @@ public class Layer implements Cloneable
 
 		return color != colorOnLayer;
 	}
-
-	// Must contain WHITE OR BLACK to possibly return true;
-	// if one of the nodes is EMPTY, will return false
+	
 	public boolean sameColor(char c1, int i1, char c2, int i2)
 	{		
 		MarbleColor colorOnLayer1 = contains(c1, i1);
@@ -257,7 +285,6 @@ public class Layer implements Cloneable
 	{
 		return !sameColor(c1, i1, c2, i2);
 	}
-
 	//
 	// Wrapping up the exception checking into this method to avoid usage exception pollution
 	//
@@ -274,6 +301,12 @@ public class Layer implements Cloneable
 		return newLayer;
 	}
 
+	@Override
+	public Layer clone() throws CloneNotSupportedException
+	{
+		return new Layer((BitSet)this._board.clone());
+	}
+
 	//     B B B B B
 	//    B B B B B B
 	//   E E B B B E E
@@ -287,7 +320,12 @@ public class Layer implements Cloneable
 	{
 		Layer layer = new Layer();
 
+		//   A1 B1 C1 D1 E1                B B B B B 
+		//  A2 B2 C2 D2 E2 F2    ----->   B B B B B B 
+		// A3 B3 C3 D3 E3 F3 G3          E E B B B E E
 		// First 2 rows for Black
+		// A1 through E1
+		// A2 through E2
 		for (int i = 1 ; i < 3; i++)
 		{
 			for (char c = 'A'; c < 'F'; c++)
@@ -296,15 +334,19 @@ public class Layer implements Cloneable
 			}
 		}
 
-		//adds node 'F2' that can't be accessed via for loop. (Condense lines)
+		// add node 'F2' that is not be accessed via for loop.
 		layer.addBlack('F', 2);
 
-		//loops through just row 3 and adds top three marbles
+		// Row 3 and adds top three marbles
+		// C3 through F3
 		for (char c = 'C'; c < 'F'; c++)
 		{
 			layer.addBlack(c , 3);
 		}
 
+		// C7 D7 E7 F7 G7 H7 I7          E E W W W E E
+		//   D8 E8 F8 G8 H8 I8   ----->   W W W W W W
+		//     E9 F9 G9 H9 I9              W W W W W		
 		//loops through just row 7 and adds 3 marbles
 		for(char c = 'E'; c < 'H'; c++)
 		{
@@ -327,59 +369,46 @@ public class Layer implements Cloneable
 		return layer;
 	}
 
-	public String toString(Layer layer)
+	public String toString()
 	{
+		System.out.println(_board);
 		String board = "";
 
-		final int FIRST_ROW = 1;
-		final int LAST_ROW = 9;
-		final char FIRST_COLUMN = 'A';
-		final char LAST_COLUMN = 'I';
-		for (int r = FIRST_ROW; r <= LAST_ROW; r++)
-		{ 
-			String spaceString = "";
-			if (r == 1 || r == 9) spaceString += "    ";
-			if (r == 2 || r == 8) spaceString += "   ";
-			if (r == 3 || r == 7) spaceString += "  ";
-			if (r == 4 || r == 6) spaceString += " ";
+		int pos = 0; // Track total board positions
+		for (int row = 1; row <= ROW_INDICES.length-1; row++)
+		{
+			if (row == 1 || row == 9) board += "    ";
+			else if (row == 2 || row == 8) board += "   ";
+			else if (row == 3 || row == 7) board += "  ";
+			else if (row == 4 || row == 6) board += " ";
 
-			board += spaceString;
-
-			for (char c = FIRST_COLUMN ; c <= LAST_COLUMN; c++)
+			// Columns
+			for (int c = 0; c < ROW_INDICES[row] - ROW_INDICES[row - 1]; c++)
 			{
-				// If the node does not exist on the board, disregard it,
-				// otherwise accumulate Marbles / colors.
-				if (AbaloneGraph.get().hasVertex(c, r))
+				switch (contains(pos * 2)) // 2 bits per board position
 				{
-					switch (layer.contains(c,  r))
-					{
 					case BLACK:
-						board += "B ";
+						board += "B";
 						break;
 					case WHITE:
-						board += "W" +" ";
+						board += "W";
 						break;
 					case EMPTY:
-						board += "E" +" ";
+						board += "E";
 						break;
 					case INVALID:
-						System.err.println("Unexpected INVALID; should not be possible");
+						System.err.println("Unexpected INVALID in toString; should not be possible");
 						break;
 					default:
 						System.err.println("This should not be possible");
-					}
 				}
+
+				board += " ";
+				pos++; // Advance to next board positions
 			}
-			board += spaceString;
+
 			board += "\n";
 		}
 		return board;
 	}
-	//	public static void main(String[] args)
-	//    {	
-	//		//Dumps both arraylist of white and arraylist of black marbles into the console.
-	//		Layer overlay = Layer.getDefaultBoard();
-	//		System.out.println(overlay._black);
-	//		System.out.println(overlay._white);
-	//	}
 }

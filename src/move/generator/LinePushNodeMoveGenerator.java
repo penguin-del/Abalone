@@ -51,8 +51,10 @@ public class LinePushNodeMoveGenerator
 		Node ue = line.getUpperEndpoint();
 
 		//if the marble(candidate) that you are trying to push is not the opposite color, return
-		if (_layer.sameColor(candidate._col, candidate._row, le._col, le._row) || !_layer.isValid(candidate._col, candidate._row) 
-				|| _layer.isEmpty(candidate._col, candidate._row)) return;
+		if (!_layer.isValid(candidate._col, candidate._row)) return;
+		if	(_layer.isEmpty(candidate._col, candidate._row)) return;
+		if (_layer.sameColor(candidate._col, candidate._row, le._col, le._row)) return;
+
 		//		if((_bg.getBoard().getValue(candidate)) != 
 		//				(_bg.getBoard().flipColor(line.getLowerEndpoint()))){
 		//			return;
@@ -226,18 +228,26 @@ public class LinePushNodeMoveGenerator
 
 	public void makePushedNodeMove(Line line, Node candidate, Node destination, MarbleColor color)
 	{
-		//if it isn't empty or null, return
-		if (!_layer.isEmpty(destination._col, destination._row)&&_layer.isValid(destination._col, destination._row)) return;
-		//if(!(_bg.isEmptyorInvalid(destination))) return;
-		//add move to possible lines pushing list
-		LinePushNode lpn= new LinePushNode(line, candidate, destination);
-		
-		//adds to proper linepushnode list based on color
-		if (color==MarbleColor.WHITE) _whiteLinePushNode.add(lpn);
-		else _blackLinePushNode.add(lpn);
-		
-	}
+		LinePushNode lpn= null;
 
+		//add move to possible lines pushing list
+		//if it isn't empty or null, return
+		if (!_layer.isValid(destination._col, destination._row)) {
+			lpn= new LinePushNode(line, candidate, destination);
+		}
+		else if (_layer.isEmpty(destination._col, destination._row)) {
+			lpn= new LinePushNode(line, candidate, destination);
+		}
+		if (lpn == null) return;
+
+
+		addMove(color, lpn);
+	}
+	private void addMove(MarbleColor color, LinePushNode move) {
+		//adds to proper linepushnode list based on color
+		if (color==MarbleColor.WHITE) _whiteLinePushNode.add(move);
+		else _blackLinePushNode.add(move);
+	}
 }
 
 

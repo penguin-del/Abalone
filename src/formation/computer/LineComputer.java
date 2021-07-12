@@ -3,7 +3,7 @@ package formation.computer;
 import java.util.ArrayList;
 
 import board.Layer;
-import board.Layer.LightNode;
+import board.LightNode;
 import board.Marble.MarbleColor;
 import formation.shape.Line;
 import globals.Constants;

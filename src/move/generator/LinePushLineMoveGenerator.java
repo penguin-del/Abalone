@@ -164,7 +164,7 @@ public class LinePushLineMoveGenerator
 		if (_layer.sameColor(lowerCand2._col, lowerCand2._row, le._col, le._row) ||
 				!_layer.isValid(lowerCand2._col, lowerCand2._row)|| 
 				_layer.isEmpty(lowerCand2._col, lowerCand2._row)) return;
-		
+
 
 		makePushedLineMove(line, lowerCand1, lowerCand2, destination, color);
 
@@ -267,22 +267,28 @@ public class LinePushLineMoveGenerator
 	}
 	private void makePushedLineMove(Line sumitoLine, Node upperCandidate1, Node upperCandidate2, Node destination, MarbleColor color)
 	{
-		//if destination space isn't empty and is on board, return
-		if (!_layer.isEmpty(destination._col, destination._row)&&_layer.isValid(destination._col, destination._row)) return;
-
-		// if(!_bg.isEmptyorInvalid(destination)) return;
-
-		//you now know its a line, so create line with 2 candidates
+		//you now know pushed line is a line, so create line with 2 candidates
 		Line pushedLine = new Line();
 		pushedLine.addToLine(upperCandidate1);
 		pushedLine.addToLine(upperCandidate2);
 
-		//create LinePushLine with both lines and the destination node
-		LinePushLine linePushed= new LinePushLine(sumitoLine, pushedLine, destination);
+		LinePushLine linePushed = null;
 
-		//adds linepushline based on color
-		if (color==MarbleColor.WHITE) _whiteLinePushLine.add(linePushed);
-		else _blackLinePushLine.add(linePushed);
+		//if destination space isn't empty and is on board, return
+		if(!_layer.isValid(destination._col, destination._row)) {
+			linePushed= new LinePushLine(sumitoLine, pushedLine, destination);
+		}
+		else if (_layer.isEmpty(destination._col, destination._row)) {
+			linePushed= new LinePushLine(sumitoLine, pushedLine, destination);
+		}
+		if (linePushed == null) return;
 
+		addMove(color, linePushed);
+	}
+	//adds linepushline based on color
+	private void addMove (MarbleColor color, LinePushLine move) {
+
+		if (color==MarbleColor.WHITE) _whiteLinePushLine.add(move);
+		else _blackLinePushLine.add(move);
 	}
 }

@@ -29,16 +29,17 @@ public class Game
 
 	public MarbleColor play()
 	{
+		int turns = 0;
 		Layer currentLayer = _rootLayer; 
 		// limit # turns to guarantee termination
-		for (int turns = 0; turns < _MAX_TURNS; turns++)
+		for (;turns < _MAX_TURNS; turns++)
 		{
 			// Player 1 makes a move and then check player 2 lose condition
 			_blackMoves += 1;
-			_player1.takeTurn(currentLayer, Constants.PLAYER_1__STARTING_COLOR);
+			currentLayer = _player1.takeTurn(currentLayer, Constants.PLAYER_1__STARTING_COLOR);
 //			System.out.print(currentLayer);
 			//if () counter.pushedOff(MarbleColor.WHITE);
-			if (currentLayer._white.size() == 8) {
+			if (currentLayer.numMarblesLeft(MarbleColor.WHITE) == 8) {
 				//System.out.print(numturns+ "\n");
 				return MarbleColor.BLACK;
 			}
@@ -48,19 +49,22 @@ public class Game
 
 			//Player 2 makes a move and then check player 1 lose condition
 			_whiteMoves +=1;
-			_player2.takeTurn(currentLayer, Constants.PLAYER_2__STARTING_COLOR);
+			currentLayer = _player2.takeTurn(currentLayer, Constants.PLAYER_2__STARTING_COLOR);
 //			System.out.print(currentLayer);
 			//if () counter.pushedOff(MarbleColor.BLACK);
-			if (currentLayer._black.size() == 8) {
+			if (currentLayer.numMarblesLeft(MarbleColor.BLACK) == 8) {
 				//System.out.print(numturns+ "\n"); 
 				return MarbleColor.WHITE; 
 			}
-
+			
 			//				System.out.print(_bg + "\n");
 			//				System.out.print("White Left: "+ counter.getWhiteMarbles()+ " ");
 			//				System.out.print("Black Left: "+ counter.getNumBlackMarbles()+ "\n");
 		}
-
+//		System.out.println(turns);
+//		System.out.println(currentLayer.numMarblesLeft(MarbleColor.WHITE));
+//		System.out.println(currentLayer.numMarblesLeft(MarbleColor.BLACK));
+//		System.out.println(currentLayer);
 		//Only returns empty if the game exceeds the turn limit
 		return MarbleColor.EMPTY;
 	}

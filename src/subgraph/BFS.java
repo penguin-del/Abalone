@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import board.Layer;
-import board.Layer.LightNode;
+import board.LightNode;
 import board.Marble.MarbleColor;
 import graph.AbaloneGraph;
 import graph.Node;

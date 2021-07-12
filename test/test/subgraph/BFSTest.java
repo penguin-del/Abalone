@@ -426,8 +426,8 @@ class BFSTest {
 		
 		blackBlob.add(secondblob);
 		blackBlob.add(fourthblob);
-		whiteBlob.add(firstblob);
 		whiteBlob.add(thirdblob);
+		whiteBlob.add(firstblob);
 		
 		
 		assertEquals(blackFormations.BFSOnMarbleFormations(MarbleColor.BLACK), blackBlob);

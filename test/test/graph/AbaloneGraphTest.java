@@ -279,7 +279,7 @@ class AbaloneGraphTest {
 
 		assertTrue(layer.containsOppositeColor('A',1, MarbleColor.WHITE));
 		
-		layer.removeBlack('A', 1);
+		layer.remove('A', 1);
 		layer.addWhite('A', 1);
 
 		assertTrue(layer.containsOppositeColor('A',1, MarbleColor.BLACK));

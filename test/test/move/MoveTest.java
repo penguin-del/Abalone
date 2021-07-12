@@ -63,19 +63,19 @@ class MoveTest
 		Node node2= AbaloneGraph.get().getVertex('A',3);
 		SimpleMove simple= new SimpleMove(node, node2);
 		
-		simple.makeMove(layer);
+		Layer newLayer = simple.makeMove(layer);
 
-		assertTrue(layer.contains('A', 3)==MarbleColor.BLACK);
-		assertTrue(layer.contains('A', 2)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('A', 3)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('A', 2)==MarbleColor.EMPTY);
 
 		node= AbaloneGraph.get().getVertex('F',7);
 		layer.addBlack('F', 7);
 		node2= AbaloneGraph.get().getVertex('F',6);
 		simple= new SimpleMove(node, node2);
-		simple.makeMove(layer);
+		Layer newLayer2 =simple.makeMove(layer);
 
-		assertTrue(layer.contains('F', 6)==MarbleColor.BLACK);
-		assertTrue(layer.contains('F', 7)==MarbleColor.EMPTY);
+		assertTrue(newLayer2.contains('F', 6)==MarbleColor.BLACK);
+		assertTrue(newLayer2.contains('F', 7)==MarbleColor.EMPTY);
 
 
 	}
@@ -95,10 +95,10 @@ class MoveTest
 		node= AbaloneGraph.get().getVertex('D',2);
 
 		ShiftLine sL= new ShiftLine(line, node);
-		sL.makeMove(layer);
+		Layer newLayer =sL.makeMove(layer);
 
-		assertTrue(layer.contains('B', 2)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('D', 2)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('B', 2)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('D', 2)==MarbleColor.BLACK);
 
 
 
@@ -125,10 +125,10 @@ class MoveTest
 		node= AbaloneGraph.get().getVertex('A',2);
 
 		ShiftLine sL= new ShiftLine(line, node);
-		sL.makeMove(layer);
+		Layer newLayer = sL.makeMove(layer);
 
-		assertTrue(layer.contains('D',2)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('A', 2)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('D',2)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('A', 2)==MarbleColor.BLACK);
 	}
 
 	@Test
@@ -151,10 +151,10 @@ class MoveTest
 		node= AbaloneGraph.get().getVertex('C',5);
 
 		ShiftLine sL= new ShiftLine(line, node);
-		sL.makeMove(layer);
+		Layer newLayer =sL.makeMove(layer);
 
-		assertTrue(layer.contains('C',2) ==MarbleColor.EMPTY);
-		assertTrue(layer.contains('C',5)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('C',2) ==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('C',5)==MarbleColor.BLACK);
 	}
 
 	@Test
@@ -177,10 +177,10 @@ class MoveTest
 		node= AbaloneGraph.get().getVertex('C',1);
 
 		ShiftLine sL= new ShiftLine(line, node);
-		sL.makeMove(layer);
+		Layer newLayer =sL.makeMove(layer);
 
-		assertTrue(layer.contains('C',4)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('C',1)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('C',4)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('C',1)==MarbleColor.BLACK);
 
 	}
 	@Test
@@ -203,10 +203,10 @@ class MoveTest
 		node= AbaloneGraph.get().getVertex('D',5);
 
 		ShiftLine sL= new ShiftLine(line, node);
-		sL.makeMove(layer);
+		Layer newLayer =sL.makeMove(layer);
 
-		assertTrue(layer.contains('G', 8)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('D', 5)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('G', 8)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('D', 5)==MarbleColor.BLACK);
 
 	}
 	@Test
@@ -229,10 +229,10 @@ class MoveTest
 		node= AbaloneGraph.get().getVertex('H',9);
 
 		ShiftLine sL= new ShiftLine(line, node);
-		sL.makeMove(layer);
+		Layer newLayer = sL.makeMove(layer);
 
-		assertTrue(layer.contains('E',6)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('H', 9)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('E',6)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('H', 9)==MarbleColor.BLACK);
 	}
 
 
@@ -252,15 +252,15 @@ class MoveTest
 		line.addToLine(node);
 
 		SideStep sS= new SideStep(line, HexagonCardinalDirections.NORTHEAST);
-		sS.makeMove(layer);
+		Layer newLayer = sS.makeMove(layer);
 
-		assertTrue(layer.contains('C',2)==MarbleColor.BLACK);
-		assertTrue(layer.contains('D',2)==MarbleColor.BLACK);
-		assertTrue(layer.contains('E',2)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('C',2)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('D',2)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('E',2)==MarbleColor.BLACK);
 
-		assertTrue(layer.contains('C',3)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('D',3)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('E',3)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('C',3)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('D',3)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('E',3)==MarbleColor.EMPTY);
 
 	}
 
@@ -280,15 +280,15 @@ class MoveTest
 		line.addToLine(node);
 
 		SideStep sS= new SideStep(line, HexagonCardinalDirections.EAST);
-		sS.makeMove(layer);
+		Layer newLayer = sS.makeMove(layer);
 
-		assertTrue(layer.contains('C',2)==MarbleColor.BLACK);
-		assertTrue(layer.contains('C',3)==MarbleColor.BLACK);
-		assertTrue(layer.contains('C',4)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('C',2)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('C',3)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('C',4)==MarbleColor.BLACK);
 
-		assertTrue(layer.contains('B',2)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('B',3)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('B',4)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('B',2)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('B',3)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('B',4)==MarbleColor.EMPTY);
 
 	}
 
@@ -309,15 +309,15 @@ class MoveTest
 		line.addToLine(node);
 
 		SideStep sS= new SideStep(line, HexagonCardinalDirections.SOUTHEAST);
-		sS.makeMove(layer);
+		Layer newLayer = sS.makeMove(layer);
 
-		assertTrue(layer.contains('D',4)==MarbleColor.BLACK);
-		assertTrue(layer.contains('E',4)==MarbleColor.BLACK);
-		assertTrue(layer.contains('F',4)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('D',4)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('E',4)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('F',4)==MarbleColor.BLACK);
 
-		assertTrue(layer.contains('C',3)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('D',3)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('E',3)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('C',3)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('D',3)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('E',3)==MarbleColor.EMPTY);
 
 	}
 	@Test
@@ -334,15 +334,15 @@ class MoveTest
 		line.addToLine(node);
 
 		SideStep sS= new SideStep(line, HexagonCardinalDirections.SOUTHWEST);
-		sS.makeMove(layer);
+		Layer newLayer = sS.makeMove(layer);
 
-		assertTrue(layer.contains('D',5)==MarbleColor.BLACK);
-		assertTrue(layer.contains('E',6)==MarbleColor.BLACK);
-		assertFalse(layer.contains('F',8)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('D',5)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('E',6)==MarbleColor.BLACK);
+		assertFalse(newLayer.contains('F',8)==MarbleColor.BLACK);
 
-		assertTrue(layer.contains('D',4)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('E',5)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('C',5)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('D',4)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('E',5)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('C',5)==MarbleColor.EMPTY);
 
 	}
 
@@ -363,15 +363,15 @@ class MoveTest
 		line.addToLine(node);
 
 		SideStep sS= new SideStep(line, HexagonCardinalDirections.WEST);
-		sS.makeMove(layer);
+		Layer newLayer = sS.makeMove(layer);
 
-		assertTrue(layer.contains('B',3)==MarbleColor.BLACK);
-		assertTrue(layer.contains('B',4)==MarbleColor.BLACK);
-		assertTrue(layer.contains('B',5)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('B',3)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('B',4)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('B',5)==MarbleColor.BLACK);
 
-		assertTrue(layer.contains('C',3)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('C',4)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('C',5)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('C',3)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('C',4)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('C',5)==MarbleColor.EMPTY);
 
 	}
 	@Test
@@ -391,15 +391,15 @@ class MoveTest
 		line.addToLine(node);
 
 		SideStep sS= new SideStep(line, HexagonCardinalDirections.NORTHWEST);
-		sS.makeMove(layer);
+		Layer newLayer = sS.makeMove(layer);
 
-		assertTrue(layer.contains('B',2)==MarbleColor.BLACK);
-		assertTrue(layer.contains('C',2)==MarbleColor.BLACK);
-		assertTrue(layer.contains('D',2)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('B',2)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('C',2)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('D',2)==MarbleColor.BLACK);
 
-		assertTrue(layer.contains('C',3)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('D',3)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('E',3)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('C',3)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('D',3)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('E',3)==MarbleColor.EMPTY);
 
 	}
 
@@ -443,20 +443,20 @@ class MoveTest
 
 		LinePushNode lpn= new LinePushNode(line, pushNode, destination);
 
-		lpn.makeMove(layer);
+		Layer newLayer = lpn.makeMove(layer);
 
-		assertTrue(layer.contains('B',4)==MarbleColor.BLACK);
-		assertTrue(layer.contains('A',4)==MarbleColor.WHITE);
-		assertTrue(layer.contains('E',4)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('F',4)==MarbleColor.WHITE);
+		assertTrue(newLayer.contains('B',4)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('A',4)==MarbleColor.WHITE);
+		assertTrue(newLayer.contains('E',4)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('F',4)==MarbleColor.WHITE);
 
 		LinePushNode lpn2= new LinePushNode(line, pushNode2,destination2);
 
-		lpn2.makeMove(layer);
+		Layer newLayer2 =lpn2.makeMove(layer);
 
-		assertTrue(layer.contains('F',4)==MarbleColor.BLACK);
-		assertTrue(layer.contains('G',4)==MarbleColor.WHITE);
-		assertTrue(layer.contains('C',4)==MarbleColor.EMPTY);
+		assertTrue(newLayer2.contains('F',4)==MarbleColor.BLACK);
+		assertTrue(newLayer2.contains('G',4)==MarbleColor.WHITE);
+		assertTrue(newLayer2.contains('C',4)==MarbleColor.EMPTY);
 
 
 
@@ -482,13 +482,13 @@ class MoveTest
 
 		LinePushNode lpn= new LinePushNode(line, pushNode, INVALID_NODE);
 		
-		lpn.makeMove(layer);
+		Layer newLayer = lpn.makeMove(layer);
 		//May be an irrelevant test now
 		//assertTrue(lpn.makeMove(layer));
 
-		assertTrue(layer.contains('E',1)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('E',1)==MarbleColor.BLACK);
 
-		assertTrue(layer.contains('B',1)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('B',1)==MarbleColor.EMPTY);
 
 	}
 
@@ -528,20 +528,20 @@ class MoveTest
 
 		LinePushNode lpn= new LinePushNode(line, pushNode, destination);
 		
-		lpn.makeMove(layer);
+		Layer newLayer = lpn.makeMove(layer);
 
-		assertTrue(layer.contains('E',3)==MarbleColor.WHITE);
-		assertTrue(layer.contains('E',2)==MarbleColor.BLACK);
-		assertTrue(layer.contains('E',6)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('E',3)==MarbleColor.WHITE);
+		assertTrue(newLayer.contains('E',2)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('E',6)==MarbleColor.EMPTY);
 
 
 		LinePushNode lpn2= new LinePushNode(line, pushNode2,destination2);
 
-		lpn2.makeMove(layer);
+		Layer newLayer2 =lpn2.makeMove(layer);
 
-		assertTrue(layer.contains('E',7)==MarbleColor.WHITE);
-		assertTrue(layer.contains('E',8)==MarbleColor.BLACK);
-		assertTrue(layer.contains('E',4)==MarbleColor.EMPTY);
+		assertTrue(newLayer2.contains('E',7)==MarbleColor.WHITE);
+		assertTrue(newLayer2.contains('E',8)==MarbleColor.BLACK);
+		assertTrue(newLayer2.contains('E',4)==MarbleColor.EMPTY);
 	}
 
 	@Test
@@ -578,20 +578,20 @@ class MoveTest
 
 		LinePushNode lpn= new LinePushNode(line, pushNode, destination);
 
-		lpn.makeMove(layer);
+		Layer newLayer = lpn.makeMove(layer);
 
-		assertTrue(layer.contains('B',3)==MarbleColor.WHITE);
-		assertTrue(layer.contains('A',2)==MarbleColor.BLACK);
-		assertTrue(layer.contains('E',6)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('B',3)==MarbleColor.WHITE);
+		assertTrue(newLayer.contains('A',2)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('E',6)==MarbleColor.EMPTY);
 
 
 		LinePushNode lpn2= new LinePushNode(line, pushNode2,destination2);
 
-		lpn2.makeMove(layer);
+		Layer newLayer2 =lpn2.makeMove(layer);
 
-		assertTrue(layer.contains('F',7)==MarbleColor.WHITE);
-		assertTrue(layer.contains('G',8)==MarbleColor.BLACK);
-		assertTrue(layer.contains('C',4)==MarbleColor.EMPTY);
+		assertTrue(newLayer2.contains('F',7)==MarbleColor.WHITE);
+		assertTrue(newLayer2.contains('G',8)==MarbleColor.BLACK);
+		assertTrue(newLayer2.contains('C',4)==MarbleColor.EMPTY);
 	}
 
 	@Test
@@ -634,20 +634,20 @@ class MoveTest
 
 		LinePushLine lplMove= new LinePushLine(line, pushLine2, destination2);
 
-		lplMove.makeMove(layer);
+		Layer newLayer = lplMove.makeMove(layer);
 
-		assertTrue(layer.contains('C',5)==MarbleColor.BLACK);
-		assertTrue(layer.contains('A',5)==MarbleColor.WHITE);
-		assertTrue(layer.contains('F',5)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('B',5)==MarbleColor.WHITE);
+		assertTrue(newLayer.contains('C',5)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('A',5)==MarbleColor.WHITE);
+		assertTrue(newLayer.contains('F',5)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('B',5)==MarbleColor.WHITE);
 
 		LinePushLine lplMove2= new LinePushLine(line, pushLine3, destination3);
-		lplMove2.makeMove(layer);
+		Layer newLayer2 =lplMove2.makeMove(layer);
 
-		assertTrue(layer.contains('G',5)==MarbleColor.BLACK);
-		assertTrue(layer.contains('H',5)==MarbleColor.WHITE);
-		assertTrue(layer.contains('D',5)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('I',5)==MarbleColor.WHITE);
+		assertTrue(newLayer2.contains('G',5)==MarbleColor.BLACK);
+		assertTrue(newLayer2.contains('H',5)==MarbleColor.WHITE);
+		assertTrue(newLayer2.contains('D',5)==MarbleColor.EMPTY);
+		assertTrue(newLayer2.contains('I',5)==MarbleColor.WHITE);
 	}
 
 	@Test
@@ -689,20 +689,20 @@ class MoveTest
 		
 		LinePushLine lplMove= new LinePushLine(line, pushLine2, destination2);
 
-		lplMove.makeMove(layer);
+		Layer newLayer =lplMove.makeMove(layer);
 
-		assertTrue(layer.contains('E',3)==MarbleColor.BLACK);
-		assertTrue(layer.contains('E',1)==MarbleColor.WHITE);
-		assertTrue(layer.contains('E',6)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('E',2)==MarbleColor.WHITE);
+		assertTrue(newLayer.contains('E',3)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('E',1)==MarbleColor.WHITE);
+		assertTrue(newLayer.contains('E',6)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('E',2)==MarbleColor.WHITE);
 
 		LinePushLine lplMove2= new LinePushLine(line, pushLine3, destination3);
-		lplMove2.makeMove(layer);
+		Layer newLayer2 =lplMove2.makeMove(layer);
 
-		assertTrue(layer.contains('E',7)==MarbleColor.BLACK);
-		assertTrue(layer.contains('E',9)==MarbleColor.WHITE);
-		assertTrue(layer.contains('E',4)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('E',8)==MarbleColor.WHITE);
+		assertTrue(newLayer2.contains('E',7)==MarbleColor.BLACK);
+		assertTrue(newLayer2.contains('E',9)==MarbleColor.WHITE);
+		assertTrue(newLayer2.contains('E',4)==MarbleColor.EMPTY);
+		assertTrue(newLayer2.contains('E',8)==MarbleColor.WHITE);
 	}
 	
 	@Test
@@ -746,20 +746,20 @@ class MoveTest
 		LinePushLine lplMove= new LinePushLine(line, pushLine2, destination2);
 
 		
-		lplMove.makeMove(layer);
+		Layer newLayer =lplMove.makeMove(layer);
 
-		assertTrue(layer.contains('C',3)==MarbleColor.WHITE);
-		assertTrue(layer.contains('A',1)==MarbleColor.BLACK);
-		assertTrue(layer.contains('F',6)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('B',2)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('C',3)==MarbleColor.WHITE);
+		assertTrue(newLayer.contains('A',1)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('F',6)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('B',2)==MarbleColor.BLACK);
 
 		LinePushLine lplMove2= new LinePushLine(line, pushLine3, destination3);
-		lplMove2.makeMove(layer);
+		Layer newLayer2 =lplMove2.makeMove(layer);
 
-		assertTrue(layer.contains('G',7)==MarbleColor.WHITE);
-		assertTrue(layer.contains('I',9)==MarbleColor.BLACK);
-		assertTrue(layer.contains('D',4)==MarbleColor.EMPTY);
-		assertTrue(layer.contains('H',8)==MarbleColor.BLACK);
+		assertTrue(newLayer2.contains('G',7)==MarbleColor.WHITE);
+		assertTrue(newLayer2.contains('I',9)==MarbleColor.BLACK);
+		assertTrue(newLayer2.contains('D',4)==MarbleColor.EMPTY);
+		assertTrue(newLayer2.contains('H',8)==MarbleColor.BLACK);
 	}
 	@Test
 	void Test_Move_LinePushLine_Off_Board()  {
@@ -786,12 +786,12 @@ class MoveTest
 
 		LinePushLine lplMove= new LinePushLine(line, pushLine2, INVALID_NODE);
 
-		lplMove.makeMove(layer);
+		Layer newLayer =lplMove.makeMove(layer);
 //		assertTrue(lplMove.makeMove(layer));
 
-		assertTrue(layer.contains('D',1)==MarbleColor.BLACK);
-		assertTrue(layer.contains('E',1)==MarbleColor.WHITE);
-		assertTrue(layer.contains('A',1)==MarbleColor.EMPTY);
+		assertTrue(newLayer.contains('D',1)==MarbleColor.BLACK);
+		assertTrue(newLayer.contains('E',1)==MarbleColor.WHITE);
+		assertTrue(newLayer.contains('A',1)==MarbleColor.EMPTY);
 
 	}
 }

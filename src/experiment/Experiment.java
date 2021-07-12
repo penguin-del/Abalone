@@ -39,6 +39,7 @@ public class Experiment
 			if(winner == MarbleColor.BLACK) _blackWinCounter++;
 			whiteMoveCounter += game._whiteMoves;
 			blackMoveCounter += game._blackMoves;
+			// if (i % 10 == 0) System.out.println("Finished" + i);
 		}
 		timer.stop();
 		

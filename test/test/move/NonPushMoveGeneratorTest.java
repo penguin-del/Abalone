@@ -747,11 +747,6 @@ class NonPushMoveGeneratorTest {
 		
 		
 	}
-	
-	@Test
-	void Test_ShiftLine_On_Edge() {
-		Layer layer = new Layer();
-	}
 
 	@Test
 	void Test_Compute_NorthEast_Move()  {

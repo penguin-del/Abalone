@@ -2,7 +2,7 @@ package move.generator;
 
 import java.util.ArrayList;
 import board.Layer;
-import board.Layer.LightNode;
+import board.LightNode;
 import board.Marble.MarbleColor;
 import formation.computer.LineComputer;
 import formation.shape.Line;
@@ -100,8 +100,10 @@ public class NonPushMoveGenerator
 
 	private void makeShiftLineMove(Line line, Node candidate, MarbleColor color)
 	{
-		if (_layer.isEmpty(candidate._col, candidate._row) && _layer.isValid(candidate._col, candidate._row) && color==MarbleColor.WHITE) _whiteShift.add(new ShiftLine(line, candidate));
-		if (_layer.isEmpty(candidate._col, candidate._row) && _layer.isValid(candidate._col, candidate._row) && color==MarbleColor.BLACK) _blackShift.add(new ShiftLine(line, candidate));
+		if(!_layer.isValid(candidate._col, candidate._row)) return;
+		if(! _layer.isEmpty(candidate._col, candidate._row)) return;
+		if (color==MarbleColor.WHITE) _whiteShift.add(new ShiftLine(line, candidate));
+		if (color==MarbleColor.BLACK) _blackShift.add(new ShiftLine(line, candidate));
 	}
 
 	//adds all right to left diag line moves to list
