@@ -1,4 +1,4 @@
-package test.move;
+package move.generator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,7 +10,6 @@ import board.Layer;
 import board.Marble.MarbleColor;
 import graph.AbaloneGraph;
 import graph.Node;
-import move.generator.NonPushMoveGenerator;
 import move.representation.SimpleMove;
 import utilities.Equals;
 

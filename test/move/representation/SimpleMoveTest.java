@@ -1,4 +1,4 @@
-package test.move;
+package move.representation;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,7 +9,6 @@ import board.Layer;
 import board.Marble.MarbleColor;
 import graph.AbaloneGraph;
 import graph.Node;
-import move.representation.SimpleMove;
 
 class SimpleMoveTest {
 

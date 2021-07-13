@@ -1,4 +1,4 @@
-package test.move;
+package move.representation;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,7 +11,6 @@ import formation.shape.Line;
 import formation.shape.Line.HexagonCardinalDirections;
 import graph.AbaloneGraph;
 import graph.Node;
-import move.representation.SideStep;
 
 class SideStepMoveTest {
 

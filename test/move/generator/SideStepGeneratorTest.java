@@ -1,4 +1,4 @@
-package test.move;
+package move.generator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,7 +13,6 @@ import formation.shape.Line;
 import formation.shape.Line.HexagonCardinalDirections;
 import graph.AbaloneGraph;
 import graph.Node;
-import move.generator.NonPushMoveGenerator;
 import move.representation.SideStep;
 import utilities.Equals;
 

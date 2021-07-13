@@ -5,6 +5,7 @@ import java.io.IOException;
 import board.Game;
 import board.Layer;
 import board.Marble.MarbleColor;
+import utilities.Pair;
 import utilities.Timer;
 
 public class Experiment
@@ -34,9 +35,10 @@ public class Experiment
 
 			//initializes the game with the board game and players then plays the game
 			Game game = new Game(startLayer, _params._player1, _params._player2, _params._maxTurns);
-			MarbleColor winner = game.play();
-			if(winner == MarbleColor.WHITE) _whiteWinCounter++;
-			if(winner == MarbleColor.BLACK) _blackWinCounter++;
+			Pair<MarbleColor, Layer> winnerInfo = game.play();
+			MarbleColor winnerColor = winnerInfo.getFirst();
+			if(winnerColor == MarbleColor.WHITE) _whiteWinCounter++;
+			if(winnerColor == MarbleColor.BLACK) _blackWinCounter++;
 			whiteMoveCounter += game._whiteMoves;
 			blackMoveCounter += game._blackMoves;
 			// if (i % 10 == 0) System.out.println("Finished" + i);

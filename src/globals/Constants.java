@@ -15,4 +15,8 @@ public class Constants
 	public static final String STANDARD_BOARD_FILE = "standardGraph.txt";
 	
 	public static final int NUM_STARTING_MARBLES = 14;
+	
+	public static final int UCB1_CONSTANT = 2;
+	
+	public static final int NUM_ITERATION_ON_TREE = 1000;
 }

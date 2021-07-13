@@ -1,4 +1,4 @@
-package test.move;
+package move.representation;
 
 import static org.junit.Assert.assertTrue;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,6 @@ import formation.shape.Line;
 import graph.AbaloneGraph;
 import graph.Node;
 import move.generator.LinePushNodeMoveGenerator;
-import move.representation.LinePushNode;
 
 class LinePushNodeMoveTest {
 	private static final Node INVALID_NODE = new Node('$' ,-10);

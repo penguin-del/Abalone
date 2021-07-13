@@ -1,4 +1,4 @@
-package test.move;
+package move.representation;
 
 import static org.junit.Assert.assertTrue;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,6 @@ import board.Marble.MarbleColor;
 import formation.shape.Line;
 import graph.AbaloneGraph;
 import graph.Node;
-import move.representation.ShiftLine;
 
 class ShiftLineMoveTest {
 
