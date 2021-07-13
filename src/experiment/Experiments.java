@@ -15,7 +15,7 @@ public class Experiments {
 	}
 	
 	public static void TwoPushMovers() throws IOException {
-		Experiment_Parameters params = new Experiment_Parameters(new RandomPlayerAllMove(), new RandomPlayerAllMove(), 5000, 100);
+		Experiment_Parameters params = new Experiment_Parameters(new RandomPlayerAllMove(), new RandomPlayerAllMove(), 5000, 1000);
 		
 		Experiment ex = new Experiment(params);
 		

@@ -3,6 +3,7 @@ package board;
 import board.Marble.MarbleColor;
 import globals.Constants;
 import player.AbstractPlayer;
+import utilities.Pair;
 
 public class Game
 {
@@ -27,8 +28,13 @@ public class Game
 		_blackMoves = 0;
 	}
 
-	public MarbleColor play()
+	//return player and winning color
+	//return pair
+	
+	public Pair<MarbleColor, Layer> play()
 	{
+		
+		
 		int turns = 0;
 		Layer currentLayer = _rootLayer; 
 		// limit # turns to guarantee termination
@@ -41,7 +47,8 @@ public class Game
 			//if () counter.pushedOff(MarbleColor.WHITE);
 			if (currentLayer.numMarblesLeft(MarbleColor.WHITE) == 8) {
 				//System.out.print(numturns+ "\n");
-				return MarbleColor.BLACK;
+//				System.out.println(currentLayer);
+				return new Pair<MarbleColor, Layer>(MarbleColor.BLACK, currentLayer);
 			}
 			//				System.out.print(_bg +"\n");
 			//				System.out.print("White Left: "+ counter.getWhiteMarbles()+ " ");
@@ -54,7 +61,8 @@ public class Game
 			//if () counter.pushedOff(MarbleColor.BLACK);
 			if (currentLayer.numMarblesLeft(MarbleColor.BLACK) == 8) {
 				//System.out.print(numturns+ "\n"); 
-				return MarbleColor.WHITE; 
+//				System.out.println(currentLayer);
+				return new Pair<MarbleColor, Layer>(MarbleColor.WHITE, currentLayer);
 			}
 			
 			//				System.out.print(_bg + "\n");
@@ -66,6 +74,6 @@ public class Game
 //		System.out.println(currentLayer.numMarblesLeft(MarbleColor.BLACK));
 //		System.out.println(currentLayer);
 		//Only returns empty if the game exceeds the turn limit
-		return MarbleColor.EMPTY;
+		return new Pair<MarbleColor, Layer>(MarbleColor.EMPTY, currentLayer);
 	}
 }

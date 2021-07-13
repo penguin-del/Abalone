@@ -45,8 +45,11 @@ public class ShiftLine extends LineMove
 		if ((_line.getLowerEndpoint().compareTo(_to)) > 0) makeIt(layer, _line.getUpperEndpoint());
 
 		//if moving toward lower endPoint, changing upperEndPoint value
-		makeIt(layer, _line.getLowerEndpoint());
+		else{
+			makeIt(layer, _line.getLowerEndpoint());
+		}
 	}
+	
 	// Actually make the move
 	private void makeIt(Layer layer, Node from)
 	{

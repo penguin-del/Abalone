@@ -22,18 +22,18 @@ public class LinePushNode extends Push
 	public Layer makeMoveOnCopyBoard(Layer layer)
 	{
 		Layer newLayer = layer.getClone();
-		
+
 		makeMoveWithLayer(newLayer);
-		
+
 		return newLayer;
 	}
-	
+
 	@Override
 	public void makeMoveOnOriginalBoard(Layer layer) 
 	{
 		makeMoveWithLayer(layer);
 	}
-	
+
 	private void makeMoveWithLayer(Layer layer) {
 		if (layer.isValid(_destination._col,_destination._row))
 		{
@@ -51,12 +51,15 @@ public class LinePushNode extends Push
 		}
 
 		//pushing off board toward LowerEndPoint Side
-		if ((_line.getLowerEndpoint().compareTo(_pushed)) > 0)
+		if ((_line.getLowerEndpoint().compareTo(_pushed)) > 0) {
 			makeItOffBoard(layer, _line.getUpperEndpoint()); //return pushLowerEndPointOffBoard(bg);
-
-		//if it is pushing off board toward UpperEndPoint Side
-		makeItOffBoard(layer, _line.getLowerEndpoint());
-		//return pushUpperEndPointOffBoard(bg);
+		return;
+		}
+		else {
+			//if it is pushing off board toward UpperEndPoint Side
+			makeItOffBoard(layer, _line.getLowerEndpoint());
+			return;
+		}
 	}
 
 	private void makeItOnBoard(Layer layer, Node endpointToRemove)
@@ -70,7 +73,7 @@ public class LinePushNode extends Push
 		MarbleColor lineColor = layer.remove(endpointToRemove._col, endpointToRemove._row);
 		layer.add(_pushed._col, _pushed._row, lineColor);
 	}
-	
+
 	private void makeItOffBoard(Layer layer, Node endpointToRemove)
 	{
 		// Remove the pushed marble
@@ -131,7 +134,7 @@ public class LinePushNode extends Push
 	//		return true;
 	//	}
 
-	
+
 
 	@Override
 	public boolean equals (Object obj) 
@@ -175,7 +178,7 @@ public class LinePushNode extends Push
 		return _line + " is pushing "+ _pushed + " to "+ _destination;
 	}
 
-	
+
 }
 
 

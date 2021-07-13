@@ -59,9 +59,11 @@ public class LinePushLine extends Push
 		//if it is pushing off edge, checks to see which way we are pushing, toward LowerEndPoint or UpperEndPoint
 		if (_line.getLowerEndpoint().compareTo(_pushed.getUpperEndpoint()) > 0) {
 			makeItOffBoard(layer, _pushed.getUpperEndpoint(), _line.getUpperEndpoint());
+			return;
 		}
 		else {
 			makeItOffBoard(layer, _pushed.getLowerEndpoint(), _line.getLowerEndpoint());
+			return;
 		}
 	}
 

@@ -57,8 +57,6 @@ public class Layer implements Cloneable
 
 	protected boolean _hasWhiteBeenChanged;
 	protected boolean _hasBlackBeenChanged;
-
-	protected boolean _hasBeenChanged;
 	protected ArrayList<LightNode> _whiteNodes;
 	protected ArrayList<LightNode> _blackNodes;
 	
@@ -71,7 +69,6 @@ public class Layer implements Cloneable
 	public Layer()
 	{
 		_board = new BitSet(_NUM_BOARD_POSITIONS * 2);
-
 		_hasWhiteBeenChanged = true;
 		_hasBlackBeenChanged = true;
 	}
@@ -79,6 +76,8 @@ public class Layer implements Cloneable
 	protected Layer(BitSet copy)
 	{
 		_board = copy;
+		_hasWhiteBeenChanged = true;
+		_hasBlackBeenChanged = true;
 	}
 
 	private int indexOf(char col, int row)
@@ -137,7 +136,7 @@ public class Layer implements Cloneable
 	 */
 	public ArrayList<LightNode> getNodes(MarbleColor color)
 	{
-		if (color == MarbleColor.WHITE &&_hasWhiteBeenChanged == false)  return _whiteNodes;
+		if (color == MarbleColor.WHITE && _hasWhiteBeenChanged == false)  return _whiteNodes;
 		if (color == MarbleColor.BLACK && _hasBlackBeenChanged == false) return _blackNodes;
 		ArrayList<LightNode> nodes = new ArrayList<LightNode>();
 		
@@ -235,7 +234,6 @@ public class Layer implements Cloneable
 		// 01
 		_board.clear(index);
 		_board.set(index + 1);
-
 		_hasBlackBeenChanged = true;
 	}
 
@@ -253,7 +251,6 @@ public class Layer implements Cloneable
 		// 00
 		_board.clear(index);
 		_board.clear(index + 1);
-		_hasBeenChanged = true;
 	}
 
 	public MarbleColor remove(char col, int row)
@@ -262,7 +259,7 @@ public class Layer implements Cloneable
 
 		if (color == MarbleColor.BLACK) _hasBlackBeenChanged = true;
 		if (color == MarbleColor.WHITE) _hasWhiteBeenChanged = true;
-		makeEmpty(col, row);	
+		makeEmpty(col, row);
 		return color;
 	}
 
@@ -331,7 +328,12 @@ public class Layer implements Cloneable
 	@Override
 	public Layer clone() throws CloneNotSupportedException
 	{
-		return new Layer((BitSet)this._board.clone());
+		Layer copy = new Layer((BitSet)this._board.clone());
+		
+		copy._hasBlackBeenChanged = this._hasBlackBeenChanged;
+		copy._hasWhiteBeenChanged = this._hasWhiteBeenChanged;
+		
+		return copy;
 	}
 
 	//     B B B B B
