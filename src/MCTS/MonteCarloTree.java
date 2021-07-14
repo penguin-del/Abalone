@@ -7,6 +7,7 @@ import board.Marble.MarbleColor;
 import globals.Constants;
 import move.generator.MoveGenerator;
 import move.representation.Move;
+
 //only has access to the root
 //create root node with a layer. 
 public class MonteCarloTree {
@@ -34,7 +35,8 @@ public class MonteCarloTree {
 	// S1, S2, and S3 are child nodes or board states that are one move away.
 	// In this function we are populating an array list of TreeNodes (like S1) to later expand upon.
 	public void expandBranches(TreeNode node, MarbleColor color) {
-
+		
+		//node._layer.getNodes(color);
 		MoveGenerator allMoves = new MoveGenerator(node._layer);
 		ArrayList<Move> moveList = allMoves.computeAllMoves(color);
 
@@ -50,7 +52,7 @@ public class MonteCarloTree {
 	public double UCB1(TreeNode parent, TreeNode child) {
 
 		//Since we are dividing by times the child node has been visited, if that value is zero then the whole equation evaluates to infinity.
-		if (child._timesvisited == 0) return Double.POSITIVE_INFINITY;
+		if (child._timesVisited == 0) return Double.POSITIVE_INFINITY;
 
 		//UCS1(Si) = (average value of node) + C* sqrt(lnN / ni)
 		//C is some constant the we define in the constants class
@@ -58,8 +60,8 @@ public class MonteCarloTree {
 		//N is the number of visits to the parent node
 		//average value is defined as T/N where T is the total score of a node (determined by rollout).
 
-		return child._totalScore / child._timesvisited +
-			   Constants.UCB1_CONSTANT * (Math.sqrt((Math.log(parent._timesvisited)) / child._timesvisited));
+		return child._totalScore / child._timesVisited +
+			   Constants.UCB1_CONSTANT * (Math.sqrt((Math.log(parent._timesVisited)) / child._timesVisited));
 	}
 
 	//	public TreeNode choseRollout(TreeNode node)
@@ -128,9 +130,11 @@ public class MonteCarloTree {
 	{
 		// Expansion of the root (one-time operation)
 		expandBranches(_root, _startingColor);
-
 		for (int iter = 0; iter < Constants.NUM_ITERATION_ON_TREE; iter++)
 		{
+			if(iter == 99) {
+				System.out.println("We're here");
+			}
 			run(_root, _startingColor);
 		}
 
@@ -168,11 +172,11 @@ public class MonteCarloTree {
 		// (4) Pass the score up the tree for Total Score accumulation
 		if (node.isLeaf())
 		{
-			if (node._timesvisited == 0)
+			if (node._timesVisited == 0)
 			{
 				Rollout rolled = new Rollout();
-				node._totalScore = rolled.rollout(node.getLayer(), color);
-				node._timesvisited++;
+				node._totalScore = rolled.rollout(node.getLayer(), color, _startingColor);
+				node._timesVisited++;
 				return node._totalScore;
 			}
 			else
@@ -181,9 +185,12 @@ public class MonteCarloTree {
 				TreeNode randChild = node.randomChild();
 				if (randChild == null) System.err.println("Random Child is null ; MCTS::run");
 				Rollout rolled = new Rollout();
-				node._totalScore = rolled.rollout(randChild._layer, color);
-				node._timesvisited++;
-				return node._totalScore;
+				float rolloutScore = rolled.rollout(randChild._layer, color, _startingColor);
+				randChild._totalScore += rolloutScore;
+				randChild._timesVisited++;
+				node._totalScore += rolloutScore;
+				node._timesVisited++;
+				return rolloutScore;
 			}
 		}
 
@@ -196,9 +203,13 @@ public class MonteCarloTree {
 
 		// Update this node's score with the path-explored resulting score
 		node._totalScore += rolloutScore;
-		node._timesvisited++;
+		node._timesVisited++;
 
 		return rolloutScore;
 
+	}
+	
+	public String toString() {
+		return "Root TreeNode: "+ _root;
 	}
 }

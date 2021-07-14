@@ -330,8 +330,8 @@ public class Layer implements Cloneable
 	{
 		Layer copy = new Layer((BitSet)this._board.clone());
 		
-		copy._hasBlackBeenChanged = this._hasBlackBeenChanged;
-		copy._hasWhiteBeenChanged = this._hasWhiteBeenChanged;
+		copy._hasBlackBeenChanged = true;
+		copy._hasWhiteBeenChanged = true;
 		
 		return copy;
 	}

@@ -21,14 +21,14 @@ public class TreeNode {
 	//represents T in our UCB1 equation	
 	protected float _totalScore;
 	//represents N in our UCB1 equation 
-	protected int _timesvisited;
+	protected int _timesVisited;
 	protected ArrayList<TreeNode> _children;
 	protected double _UCB1 = 0;
 	
 	public TreeNode(Layer layer, Move move) {
 		_layer = layer;
 		_totalScore = 0;
-		_timesvisited = 0;
+		_timesVisited = 0;
 		_children = new ArrayList<TreeNode>();
 		_predecessorMove = move;
 	}
@@ -68,5 +68,16 @@ public class TreeNode {
 	
 	public Move getMove() {
 		return _predecessorMove;
+	}
+	
+	public String toString() {
+		String TreeNodeString = "";
+		TreeNodeString += "The move made here was " +_predecessorMove+ "\n";
+		TreeNodeString += _layer +"\n";
+		TreeNodeString += "I have "+ _children.size()+" children. \n";
+		TreeNodeString += "I have been visited "+_timesVisited+" times. \n";
+		TreeNodeString += "I have a score of "+ _totalScore;
+		
+		return TreeNodeString;
 	}
 }
