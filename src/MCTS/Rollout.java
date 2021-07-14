@@ -43,7 +43,7 @@ public class Rollout {
 		if(playerColor==MarbleColor.EMPTY) {
 			//gets finalLayer from pair
 			Layer finalLayer = winner.getSecond();
-			Scoring score = new Scoring();
+			StepWiseScoring score = new StepWiseScoring();
 			
 			return score.getScore(finalLayer, playerColor);
 		}
