@@ -18,5 +18,5 @@ public class Constants
 	
 	public static final int UCB1_CONSTANT = 2;
 	
-	public static final int NUM_ITERATION_ON_TREE = 100;
+	public static final int NUM_ITERATION_ON_TREE = 1000;
 }

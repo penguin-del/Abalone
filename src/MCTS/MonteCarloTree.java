@@ -132,7 +132,7 @@ public class MonteCarloTree {
 		expandBranches(_root, _startingColor);
 		for (int iter = 0; iter < Constants.NUM_ITERATION_ON_TREE; iter++)
 		{
-			if(iter == 99) {
+			if(iter == 500) {
 				System.out.println("We're here");
 			}
 			run(_root, _startingColor);

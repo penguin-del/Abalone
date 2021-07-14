@@ -38,12 +38,11 @@ public class Rollout {
 		if(moverColor==winningColor) return winnerPoints;
 		
 		
-		
 		//if it was a tie, then calculate and return score
 		if(winningColor==MarbleColor.EMPTY) {
 			//gets finalLayer from pair
 			Layer finalLayer = winner.getSecond();
-			StepWiseScoring score = new StepWiseScoring();
+			ExponentialScoring score = new ExponentialScoring();
 			
 			return score.getScore(finalLayer, moverColor);
 		}

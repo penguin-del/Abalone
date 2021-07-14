@@ -31,7 +31,7 @@ public class ExponentialScoring extends Scoring{
 
 		int playerMarblesKnockedOff = numOfStartingMarbles - layer.numMarblesLeft(playerColor);
 
-		int opponentMarblesKnockedOff = numOfStartingMarbles - layer.numMarblesLeft(playerColor);
+		int opponentMarblesKnockedOff = numOfStartingMarbles - layer.numMarblesLeft(playerColor.flipColor());
 
 		//initialize to 0 for use later on
 		float playerPoints = 0;
