@@ -21,7 +21,7 @@ public class Rollout {
 	
 	
 	//takes in copy layer and "our" color, returns int COULD BE FLOAT DEPENDING ON HOW WE WANT TO SCORE
-	public float rollout(Layer layer, MarbleColor playerColor) {
+	public float rollout(Layer layer, MarbleColor playerColor, MarbleColor moverColor) {
 		
 		//plays game on copy layer with FULLY RANDOM PLAYERS and with a MAX NUMBER OF MOVES 
 		Game game = new Game(layer, new RandomPlayerAllMove(), new RandomPlayerAllMove(), numMoves);
@@ -35,17 +35,17 @@ public class Rollout {
 		
 		
 		//if "we"(color that we input) haven't won, return 0
-		if(playerColor==winningColor) return winnerPoints;
+		if(moverColor==winningColor) return winnerPoints;
 		
 		
 		
 		//if it was a tie, then calculate and return score
-		if(playerColor==MarbleColor.EMPTY) {
+		if(winningColor==MarbleColor.EMPTY) {
 			//gets finalLayer from pair
 			Layer finalLayer = winner.getSecond();
 			Scoring score = new Scoring();
 			
-			return score.getScore(finalLayer, playerColor);
+			return score.getScore(finalLayer, moverColor);
 		}
 		
 		

@@ -47,20 +47,20 @@ class MonteCarloTreeTest {
 		layerV4.addBlack('B', 2);
 
 		TreeNode node1 = new TreeNode(layer, null);
-		node1._timesvisited = 3;
+		node1._timesVisited = 3;
 		node1._totalScore = 35;
 
 		TreeNode node2 = new TreeNode(layerV2, new SimpleMove(AbaloneGraph.get().getVertex('A', 1), AbaloneGraph.get().getVertex('B' , 1)));
 		node2._totalScore = 0;
-		node2._timesvisited = 0;
+		node2._timesVisited = 0;
 
 		TreeNode node3 = new TreeNode(layerV2, new SimpleMove(AbaloneGraph.get().getVertex('A', 1), AbaloneGraph.get().getVertex('A' , 2)));
 		node3._totalScore = 15;
-		node3._timesvisited = 1;
+		node3._timesVisited = 1;
 
 		TreeNode node4 = new TreeNode(layerV2, new SimpleMove(AbaloneGraph.get().getVertex('A', 1), AbaloneGraph.get().getVertex('B' , 2)));
 		node4._totalScore = 20;
-		node4._timesvisited = 2;
+		node4._timesVisited = 2;
 
 		node1.addChild(node2);
 		node1.addChild(node3);
@@ -68,7 +68,12 @@ class MonteCarloTreeTest {
 
 		MonteCarloTree tree = new MonteCarloTree(node2.getLayer(), MarbleColor.BLACK);
 		assertEquals(tree.UCB1(node1, node2), Double.POSITIVE_INFINITY );
-
+		
+		MonteCarloTree secondTree = new MonteCarloTree(node3.getLayer(), MarbleColor.BLACK);
+		//assertEquals(secondTree.UCB1(node1, node3),  );
+		
+		MonteCarloTree bigtree = new MonteCarloTree(Layer.getDefaultBoard(), MarbleColor.BLACK);
+		System.out.println(bigtree.run());
 
 	}
 
