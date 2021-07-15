@@ -30,11 +30,12 @@ public class RandomPlayerPushMove extends AbstractPlayer
 		//initializes these constructors to contain all possible push moves
 		_playablePushMoves.addAll(_LpushL.computeAllLinePushLine(color));
 		_playablePushMoves.addAll(_LpushN.computeAllLinePushNodes(color)); 
-		RandomPlayerShiftLine rpshift = new RandomPlayerShiftLine();
+		//RandomPlayerShiftLine rpshift = new RandomPlayerShiftLine();
+		RandomPlayerAllMove rpAll = new RandomPlayerAllMove();
 		
 		//If push moves are avaliable, do them. Otherwise try shifting.
 		if (!(_playablePushMoves.isEmpty())) return _playablePushMoves.get(LocalRandom.nextInt(_playablePushMoves.size())).makeMoveOnCopyBoard(layer);
-		return rpshift.takeTurn(layer, color);
+		return rpAll.takeTurn(layer, color);
 	}
 	
 //	private boolean randomlyChoseNodePush(BoardGame bg) {

@@ -15,11 +15,13 @@ public class MonteCarloTree {
 	protected TreeNode _root;
 	protected MarbleColor _startingColor;
 	protected int _size;
+	protected int _numRollout;
 
 	public MonteCarloTree(Layer layer, MarbleColor color) {
 		_root = new TreeNode(layer, null);
 		_startingColor = color;
 		_size = 0;
+		_numRollout = 0;
 	}
 
 	//
@@ -45,7 +47,8 @@ public class MonteCarloTree {
 		//If we wanted to order the moves for priority, this is the injection point.
 		for (Move move: moveList) {
 			Layer newLayer = move.makeMoveOnCopyBoard(node._layer);
-			node.addChild(new TreeNode(newLayer, move));			
+			node.addChild(new TreeNode(newLayer, move));	
+			_size += 1;
 		}
 	}
 
@@ -132,14 +135,19 @@ public class MonteCarloTree {
 		expandBranches(_root, _startingColor);
 		for (int iter = 0; iter < Constants.NUM_ITERATION_ON_TREE; iter++)
 		{
-			if(iter == 500) {
-				System.out.println("We're here");
-			}
+//			if(iter == Constants.NUM_ITERATION_ON_TREE / 2) {
+//				System.out.println("We're halfway!!!!!");
+//			}
 			run(_root, _startingColor);
 		}
 
 		// Chose highest score node
-		return _root.greatestScoreChild().getMove();
+		Move chosenMove =  _root.greatestScoreChild().getMove();
+//		System.out.println("Height: "+_root.height());
+//		System.out.println("Width: "+_root.width());
+//		System.out.println("Size: "+_size);
+//		System.out.println("Rollout: "+_numRollout);
+		return chosenMove;
 	}
 
 	private TreeNode greatest(TreeNode parent)
@@ -176,6 +184,7 @@ public class MonteCarloTree {
 			{
 				Rollout rolled = new Rollout();
 				node._totalScore = rolled.rollout(node.getLayer(), color, _startingColor);
+				_numRollout += 1;
 				node._timesVisited++;
 				return node._totalScore;
 			}
@@ -186,6 +195,7 @@ public class MonteCarloTree {
 				if (randChild == null) System.err.println("Random Child is null ; MCTS::run");
 				Rollout rolled = new Rollout();
 				float rolloutScore = rolled.rollout(randChild._layer, color, _startingColor);
+				_numRollout += 1;
 				randChild._totalScore += rolloutScore;
 				randChild._timesVisited++;
 				node._totalScore += rolloutScore;
@@ -207,6 +217,10 @@ public class MonteCarloTree {
 
 		return rolloutScore;
 
+	}
+	
+	public int getSize() {
+		return _size;
 	}
 	
 	public String toString() {

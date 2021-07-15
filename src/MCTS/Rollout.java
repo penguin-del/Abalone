@@ -3,7 +3,9 @@ package MCTS;
 import board.Game;
 import board.Layer;
 import board.Marble.MarbleColor;
+import globals.Constants;
 import player.RandomPlayerAllMove;
+import player.RandomPlayerPushMove;
 import utilities.Pair;
 
 public class Rollout {
@@ -16,15 +18,14 @@ public class Rollout {
 	//loser returns 0 CAN BE CHANGED TO WHATEVER WE DECIDE TO SCORE
 	protected final int loserPoints = -1;
 	
-	//number of moves that the game will play with CAN BE CHANGED TO HOWEVER MANY MOVES
-	protected final int numMoves = 800;
+
 	
 	
 	//takes in copy layer and "our" color, returns int COULD BE FLOAT DEPENDING ON HOW WE WANT TO SCORE
 	public float rollout(Layer layer, MarbleColor playerColor, MarbleColor moverColor) {
 		
 		//plays game on copy layer with FULLY RANDOM PLAYERS and with a MAX NUMBER OF MOVES 
-		Game game = new Game(layer, new RandomPlayerAllMove(), new RandomPlayerAllMove(), numMoves);
+		Game game = new Game(layer, Constants.PLAYER_1_TYPE, Constants.PLAYER_2_TYPE ,Constants.MAX_NUM_MOVES);
 		
 		//sets winning color to the color of the winner, it will be empty if no one wins
 		//CHANGE OUTPUT OF GAME.PLAY IF WE WANT TO IMPLEMENT SCORE MECHANISM
