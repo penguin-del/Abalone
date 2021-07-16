@@ -18,8 +18,8 @@ public class loopData {
 
 	public static void main(String[] args) {
 		TreeNode root = new TreeNode(Layer.getDefaultBoard(), null);
-		ArrayList<Integer> moves = new ArrayList<> (Arrays.asList(100, 300, 800));
-		ArrayList<Integer> iterations = new ArrayList<> (Arrays.asList(1000, 5000, 10000));
+		ArrayList<Integer> moves = new ArrayList<> (Arrays.asList(25, 50, 75));
+		ArrayList<Integer> iterations = new ArrayList<> (Arrays.asList(5000, 10000, 15000));
 		ArrayList<Double> UCB1 = new ArrayList<Double> (Arrays.asList(0.0, 0.1, 0.5));
 		ArrayList<AbstractPlayer> competetors = new ArrayList<AbstractPlayer>();
 		competetors.add(new RandomPlayerAllMove());

@@ -31,7 +31,6 @@ class MonteCarloTreeTest {
 		layer.addWhite('I', 6);
 	}
 
-
 	@Test
 	void test_UCB1_Calculation() {
 		Layer layer = new Layer();
@@ -72,8 +71,8 @@ class MonteCarloTreeTest {
 		MonteCarloTree secondTree = new MonteCarloTree(node3.getLayer(), MarbleColor.BLACK);
 		//assertEquals(secondTree.UCB1(node1, node3),  );
 		
-		MonteCarloTree bigtree = new MonteCarloTree(Layer.getDefaultBoard(), MarbleColor.BLACK);
-		System.out.println(bigtree.run());
+	//	MonteCarloTree bigtree = new MonteCarloTree(Layer.getDefaultBoard(), MarbleColor.BLACK);
+		//System.out.println(bigtree.run());
 
 	}
 

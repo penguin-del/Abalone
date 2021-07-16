@@ -2,7 +2,10 @@ package experiment;
 
 import java.io.IOException;
 
+import player.MonteCarloPlayer;
 import player.RandomPlayerAllMove;
+import player.RandomPlayerPushMove;
+import player.RandomPlayerTieredMove;
 
 public class Experiments {
 
@@ -15,7 +18,7 @@ public class Experiments {
 	}
 	
 	public static void TwoPushMovers() throws IOException {
-		Experiment_Parameters params = new Experiment_Parameters(new RandomPlayerAllMove(), new RandomPlayerAllMove(), 5000, 200);
+		Experiment_Parameters params = new Experiment_Parameters(new MonteCarloPlayer(), new RandomPlayerPushMove(), 500, 2);
 		
 		Experiment ex = new Experiment(params);
 		

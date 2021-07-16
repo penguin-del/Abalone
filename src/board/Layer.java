@@ -397,7 +397,178 @@ public class Layer implements Cloneable
 
 		return layer;
 	}
+	
+	public static Layer exampleHumanMiddleBoardWhiteAd() {
+		Layer layer = new Layer();
+		layer.addBlack('B', 1);
+		layer.addBlack('C', 1);
+		layer.addBlack('D', 1);
+		layer.addBlack('A', 2);
+		layer.addBlack('C', 2);
+		layer.addBlack('D', 2);
+		layer.addBlack('E', 2);
+		layer.addBlack('F', 2);
+		layer.addBlack('A', 3);
+		layer.addBlack('B', 3);
+		layer.addBlack('D', 3);
+		layer.addBlack('E', 3);
+		layer.addBlack('F', 3);
+		layer.addBlack('F', 4);
+		
+		layer.addWhite('C', 3);
+		layer.addWhite('C', 4);
+		layer.addWhite('D', 4);
+		layer.addWhite('E', 4);
+		layer.addWhite('C', 5);
+		layer.addWhite('D', 5);
+		layer.addWhite('E', 5);
+		layer.addWhite('D', 6);
+		layer.addWhite('E', 6);
+		layer.addWhite('F', 6);
+		layer.addWhite('G', 6);
+		layer.addWhite('E', 7);
+		layer.addWhite('G', 7);
+		layer.addWhite('E', 8);
+		
+		return layer;
+		
 
+	}
+	
+	public static Layer exampleHumanMiddleBoardBlackAd() {
+		Layer layer = new Layer();
+		layer.addBlack('B', 1);
+		layer.addBlack('C', 1);
+		layer.addBlack('A', 2);
+		layer.addBlack('C', 2);
+		layer.addBlack('D', 2);
+		layer.addBlack('E', 2);
+		layer.addBlack('B', 3);
+		layer.addBlack('C', 3);
+		layer.addBlack('D', 3);
+		layer.addBlack('E', 3);
+		layer.addBlack('C', 4);
+		layer.addBlack('D', 4);
+		layer.addBlack('E', 4);
+		layer.addBlack('E', 5);
+		
+		layer.addWhite('D', 5);
+		layer.addWhite('F', 5);
+		layer.addWhite('D', 6);
+		layer.addWhite('E', 6);
+		layer.addWhite('F', 6);
+		layer.addWhite('G', 6);
+		layer.addWhite('D', 7);
+		layer.addWhite('E', 7);
+		layer.addWhite('F', 7);
+		layer.addWhite('G', 7);
+		layer.addWhite('H', 7);
+		layer.addWhite('D', 8);
+		layer.addWhite('E', 8);
+		layer.addWhite('H', 8);
+
+		return layer;
+	}
+
+	
+	public static Layer randomComputerMiddleGround() {
+		Layer layer = new Layer();
+		layer.addBlack('A', 1);
+		layer.addBlack('B', 1);
+		layer.addBlack('D', 1);
+		layer.addBlack('E', 1);
+		layer.addBlack('A', 2);
+		layer.addBlack('B', 2);
+		layer.addBlack('D', 2);
+		layer.addBlack('F', 2);
+		layer.addBlack('C', 3);
+		layer.addBlack('E', 3);
+		layer.addBlack('F', 3);
+		layer.addBlack('C', 4);
+		layer.addBlack('F', 5);
+		layer.addBlack('G', 6);
+		
+		layer.addWhite('E', 6);
+		layer.addWhite('H', 6);
+		layer.addWhite('E', 7);
+		layer.addWhite('F', 7);
+		layer.addWhite('H', 7);
+		layer.addWhite('I', 7);
+		layer.addWhite('D', 8);
+		layer.addWhite('E', 8);
+		layer.addWhite('F', 8);
+		layer.addWhite('H', 8);
+		layer.addWhite('I', 8);
+		layer.addWhite('E', 9);
+		layer.addWhite('G', 9);
+		layer.addWhite('H', 9);
+
+		return layer;
+	}
+	
+	public static Layer randomTieredMiddleGround() {
+		Layer layer = new Layer();
+		layer.addBlack('A', 1);
+		layer.addBlack('C', 1);
+		layer.addBlack('A', 2);
+		layer.addBlack('E', 2);
+		layer.addBlack('C', 3);
+		layer.addBlack('D', 3);
+		layer.addBlack('G', 3);
+		layer.addBlack('A', 4);
+		layer.addBlack('B', 4);
+		layer.addBlack('D', 4);
+		layer.addBlack('F', 4);
+		layer.addBlack('E', 5);
+		layer.addBlack('E', 6);
+		
+		
+		layer.addWhite('A', 3);
+		layer.addWhite('C', 4);
+		layer.addWhite('F', 5);
+		layer.addWhite('F', 6);
+		layer.addWhite('D', 7);
+		layer.addWhite('E', 7);
+		layer.addWhite('F', 7);
+		layer.addWhite('G', 7);
+		layer.addWhite('G', 8);
+		layer.addWhite('H', 8);
+		layer.addWhite('I', 8);
+		layer.addWhite('H', 9);
+
+
+		return layer;
+	}
+	
+	public static Layer randomTieredEndGame() {
+		Layer layer = new Layer();
+		layer.addBlack('C', 1);
+		layer.addBlack('E', 1);
+		layer.addBlack('A', 2);
+		layer.addBlack('B', 2);
+		layer.addBlack('C', 2);
+		layer.addBlack('A', 3);
+		layer.addBlack('D', 3);
+		layer.addBlack('G', 3);
+		layer.addBlack('G', 4);
+		layer.addBlack('A', 5);
+		layer.addBlack('F', 5);
+		
+		layer.addWhite('A', 4);
+		layer.addWhite('B', 4);
+		layer.addWhite('C', 5);
+		layer.addWhite('G', 5);
+		layer.addWhite('B', 6);
+		layer.addWhite('G', 6);
+		layer.addWhite('D', 7);
+		layer.addWhite('E', 7);
+		layer.addWhite('G', 7);
+		layer.addWhite('I', 8);
+		layer.addWhite('I', 9);
+
+		return layer;
+	}
+	
 	public String toString()
 	{
 		System.out.println(_board);

@@ -194,7 +194,7 @@ public class MonteCarloTree {
 				TreeNode randChild = node.randomChild();
 				if (randChild == null) System.err.println("Random Child is null ; MCTS::run");
 				Rollout rolled = new Rollout();
-				float rolloutScore = rolled.rollout(randChild._layer, color, _startingColor);
+				float rolloutScore = rolled.rollout(randChild.getLayer(), color, _startingColor);
 				_numRollout += 1;
 				randChild._totalScore += rolloutScore;
 				randChild._timesVisited++;
