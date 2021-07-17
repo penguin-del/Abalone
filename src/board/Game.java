@@ -45,7 +45,7 @@ public class Game
 			currentLayer = _player1.takeTurn(currentLayer, Constants.PLAYER_1__STARTING_COLOR);
 //			System.out.print(currentLayer);
 			//if () counter.pushedOff(MarbleColor.WHITE);
-			if (currentLayer.numMarblesLeft(MarbleColor.WHITE) == 8) {
+			if (currentLayer.numMarblesLeft(MarbleColor.WHITE) <= 8) {
 				//System.out.print(numturns+ "\n");
 //				System.out.println(currentLayer);
 				return new Pair<MarbleColor, Layer>(MarbleColor.BLACK, currentLayer);
@@ -59,7 +59,7 @@ public class Game
 			currentLayer = _player2.takeTurn(currentLayer, Constants.PLAYER_2__STARTING_COLOR);
 //			System.out.print(currentLayer);
 			//if () counter.pushedOff(MarbleColor.BLACK);
-			if (currentLayer.numMarblesLeft(MarbleColor.BLACK) == 8) {
+			if (currentLayer.numMarblesLeft(MarbleColor.BLACK) <= 8) {
 				//System.out.print(numturns+ "\n"); 
 //				System.out.println(currentLayer);
 				return new Pair<MarbleColor, Layer>(MarbleColor.WHITE, currentLayer);

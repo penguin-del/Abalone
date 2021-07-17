@@ -5,6 +5,7 @@ import player.AbstractPlayer;
 import player.MonteCarloPlayer;
 import player.RandomPlayerAllMove;
 import player.RandomPlayerPushMove;
+import player.RandomPlayerTieredMove;
 
 public class Constants
 {

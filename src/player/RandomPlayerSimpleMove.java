@@ -25,7 +25,7 @@ public class RandomPlayerSimpleMove extends AbstractPlayer
 		_playableMoves = _mg.computeAllSimple(color);
 		
 		if (_playableMoves.isEmpty()) {
-			System.out.print(_playableMoves);
+			System.out.println("This layer failed" + "\n" +layer);
 		}
 		return _playableMoves.get(LocalRandom.nextInt(_playableMoves.size())).makeMoveOnCopyBoard(layer);
 		//randomly chooses an index to play  
