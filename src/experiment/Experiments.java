@@ -6,6 +6,7 @@ import player.MonteCarloPlayer;
 import player.RandomPlayerAllMove;
 import player.RandomPlayerPushMove;
 import player.RandomPlayerTieredMove;
+import player.TimeBasedPlayer;
 
 public class Experiments {
 
@@ -18,7 +19,7 @@ public class Experiments {
 	}
 	
 	public static void TwoPushMovers() throws IOException {
-		Experiment_Parameters params = new Experiment_Parameters(new MonteCarloPlayer(), new RandomPlayerPushMove(), 500, 2);
+		Experiment_Parameters params = new Experiment_Parameters(new TimeBasedPlayer(), new MonteCarloPlayer(), 500, 1);
 		
 		Experiment ex = new Experiment(params);
 		

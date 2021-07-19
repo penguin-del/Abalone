@@ -25,6 +25,11 @@ public class Constants
 	
 	public static int NUM_ITERATION_ON_TREE = 5000;
 	
+	
+	//Time for each 
+	public static long TIME_LIMIT_FOR_RUN = 10000;
+	
+	
 	//number of moves that the game will play with CAN BE CHANGED TO HOWEVER MANY MOVES
 	public static int MAX_NUM_MOVES = 800;
 	

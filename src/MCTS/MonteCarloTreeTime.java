@@ -10,14 +10,14 @@ import move.representation.Move;
 
 //only has access to the root
 //create root node with a layer. 
-public class MonteCarloTree {
+public class MonteCarloTreeTime {
 
 	protected TreeNode _root;
 	protected MarbleColor _startingColor;
 	protected int _size;
 	protected int _numRollout;
 
-	public MonteCarloTree(Layer layer, MarbleColor color) {
+	public MonteCarloTreeTime(Layer layer, MarbleColor color) {
 		_root = new TreeNode(layer, null);
 		_startingColor = color;
 		_size = 0;
@@ -133,12 +133,16 @@ public class MonteCarloTree {
 	{
 		// Expansion of the root (one-time operation)
 		expandBranches(_root, _startingColor);
-		for (int iter = 0; iter < Constants.NUM_ITERATION_ON_TREE; iter++)
-		{
-//			if(iter == Constants.NUM_ITERATION_ON_TREE / 2) {
-//				System.out.println("We're halfway!!!!!");
-//			}
+		
+		boolean toFinish = false;
+		long startTime = System.currentTimeMillis();
+		
+		
+		while (!toFinish) {
+			
 			run(_root, _startingColor);
+				
+			toFinish = (System.currentTimeMillis()- startTime >= Constants.TIME_LIMIT_FOR_RUN);
 		}
 
 		// Chose highest score node

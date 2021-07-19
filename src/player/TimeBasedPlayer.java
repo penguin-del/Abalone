@@ -1,25 +1,24 @@
 package player;
 
-import MCTS.MonteCarloTree;
+import MCTS.MonteCarloTreeTime;
 import board.Layer;
 import board.Marble.MarbleColor;
 import move.representation.Move;
 
-public class MonteCarloPlayer extends AbstractPlayer{
+public class TimeBasedPlayer extends AbstractPlayer{
 
 	@Override
 	public Layer takeTurn(Layer layer, MarbleColor color) {
-		MonteCarloTree mct = new MonteCarloTree(layer, color);
-		
-		Move chosenMove = mct.run();
+		MonteCarloTreeTime mctt= new MonteCarloTreeTime(layer, color);
+		Move chosenMove = mctt.run();
 		
 		Layer moveLayer = chosenMove.makeMoveOnCopyBoard(layer);
 		
-		System.out.println("MCT Move");
-		
+		System.out.println("Timed Move");
 		System.out.println(chosenMove);
 		System.out.println(moveLayer);
 	
+		
 		return moveLayer;
 	}
 
