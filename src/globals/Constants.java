@@ -33,7 +33,7 @@ public class Constants
 	//number of moves that the game will play with CAN BE CHANGED TO HOWEVER MANY MOVES
 	public static int MAX_NUM_MOVES = 800;
 	
-	public static AbstractPlayer PLAYER_1_TYPE = new RandomPlayerPushMove();
+	public static AbstractPlayer PLAYER_1_TYPE = new RandomPlayerTieredMove();
 	
-	public static AbstractPlayer PLAYER_2_TYPE = new RandomPlayerPushMove();
+	public static AbstractPlayer PLAYER_2_TYPE = new RandomPlayerTieredMove();
 }

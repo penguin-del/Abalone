@@ -10,6 +10,7 @@ import graph.AbaloneGraph;
 import graph.Node;
 import subgraph.BFSMarkingColor.MarkingColor;
 import utilities.ListUtilities;
+import utilities.Pair;
 
 
 public class BFS
@@ -79,43 +80,51 @@ public class BFS
 		for (LightNode node: _adjacency) {
 			AbaloneGraph.get().getVertex(node._col, node._row)._color = MarkingColor.MARKINGWHITE; 				
 		}
-		
-	return marbleFormations;
-}
-}
-//this addToSortedList function works for adding a node to an array list of nodes
-//	public void addToSortedList(ArrayList<Node> formation, Node node){
-//		int end = formation.size();
-//		boolean isAdded = false;
-//		for (int i = 0; i < end; i++) {
-//			// this if statement orders the line from least to greatest
-//			if (node.compareTo(formation.get(i)) == -1 && isAdded ==false) {
-//				formation.add(i, node);
-//				isAdded = true;
-//			}
-//		}
-//
-//		if (isAdded == false) {
-//			formation.add(node);
-//		}
 
-//	}
-//this addToSortedList method works for adding an arraylist of nodes to and arraylist of arraylists of nodes
-//	public void addToSortedList(ArrayList<ArrayList<Node>> formations, ArrayList<Node> newFormation) {
-//		int end = formations.size();
-//		boolean isAdded = false;
-//		for (int i = 0; i < end; i++) {
-//			// this if statement orders the line from least to greatest
-//			if (newFormation.get(0).compareTo(formations.get(i).get(0)) == -1 && isAdded ==false) {
-//				formations.add(i, newFormation);
-//				isAdded = true;
-//			}
-//		}
-//
-//		if (isAdded == false) {
-//			formations.add(newFormation);
-//		}
-//	}
-//}
+		return marbleFormations;
+	}
+
+	public int BFSDiameter(ArrayList <Node> formation) {
+		
+		//Creates a new queue for a breath first search and adds the first Pair.
+		Queue<Pair<Node, Integer>> queue = new LinkedList<Pair<Node, Integer>>(); 
+		Pair<Node, Integer> startNode = new Pair<Node, Integer>(formation.get(0), 1);
+		queue.add(startNode);
+		ArrayList<Pair<Node, Integer>> checker = new ArrayList<Pair<Node, Integer>>();
+		
+		//Goes through the queue and marks each unvisited node and keeps track of depth.
+		while (!queue.isEmpty()) {
+			Pair<Node, Integer> check = queue.poll();
+			Node node = check.getFirst();
+			int depth = check.getSecond();
+			node._color = MarkingColor.MARKINGBLACK;
+			checker.add(check);
+			
+			//figures out the neighbors and marks them as visited
+			for (Node neighbor: node.getNeighbors()) {
+				if(neighbor._color == MarkingColor.MARKINGWHITE) {
+					neighbor._color = MarkingColor.MARKINGBLACK;
+					Pair<Node, Integer> next = new Pair<Node, Integer>(neighbor, depth+1);
+					queue.add(next);
+				}
+			}
+		}
+			//determines the longest path and calls that the diameter.
+			int diameter = -1;
+			
+			for (Pair<Node, Integer> candidate: checker) {
+				if (candidate.getSecond() > diameter) {
+					diameter = candidate.getSecond();
+				}
+			}
+			
+			//wipes away the markings from our function so we can use the graph again
+			for(Node erased: formation) {
+				erased._color = MarkingColor.MARKINGWHITE;
+			}
+			
+		return diameter;		
+	}
+}
 
 
