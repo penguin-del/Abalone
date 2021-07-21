@@ -12,7 +12,7 @@ import board.Layer;
 
 public class BoardStateAssessment {
 
-	protected int _boardScore;
+	protected float _boardScore;
 	protected MarbleColor _color;
 	protected Layer _layer;
 	protected ShapeIdentifier _shapeID;
@@ -26,7 +26,7 @@ public class BoardStateAssessment {
 		_blobs = new BFS(layer, color);
 	}
 
-	public double determineScore() {
+	public float determineScore() {
 		_boardScore += calculateBoardOwnership(_color);
 		_boardScore -= calculateBoardOwnership(_color.flipColor());
 		_boardScore += blobCalculation(_color);
@@ -35,8 +35,8 @@ public class BoardStateAssessment {
 			_boardScore += cohesionScoreCalculator(_color);
 		}
 		
-		//Max score would be 3 and 10/14. Represented as a mixed number that's (26/7)
-		return _boardScore / (26 / 7);
+		//Max score would be 3 and 12/14. Represented as a mixed number that's (26/7)
+		return (float)(7*_boardScore)/ (float) 27;
 		//	_boardScore += ShapeScore();
 	}
 
@@ -110,6 +110,7 @@ public class BoardStateAssessment {
 		//		}
 		//
 		//		if (blob.size() == 1) blobScore += cohesionScoreCalculator(blob.get(0));
+		if (blob.size() == 0) return -1;
 		if (blob.size() == 1) return 1;
 		if (blob.size() == 2) return 0;
 		if (blob.size() == 3) return 0;
