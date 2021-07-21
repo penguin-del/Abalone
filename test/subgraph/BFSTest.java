@@ -19,20 +19,6 @@ class BFSTest {
 		layer.addWhite('C', 1);
 		layer.addWhite('D', 1);
 		layer.addWhite('D', 2);
-		
-//		Node node1 = graph.getVertex('A', 1);
-//		Node node2 = graph.getVertex('A', 2);
-//		Node node3 = graph.getVertex('B', 2);
-//		Node node4 = graph.getVertex('C', 1);
-//		Node node5 = graph.getVertex('D', 1);
-//		Node node6 = graph.getVertex('D', 2);
-//		
-//		graph.getVertices().put(node1, MarbleColor.WHITE);
-//		graph.getVertices().put(node2, MarbleColor.WHITE);
-//		graph.getVertices().put(node3, MarbleColor.WHITE);
-//		graph.getVertices().put(node4, MarbleColor.WHITE);
-//		graph.getVertices().put(node5, MarbleColor.WHITE);
-//		graph.getVertices().put(node6, MarbleColor.WHITE);
 	}
 	
 	public void test_two_long_straight_lines_Adder(Layer layer) {
@@ -45,25 +31,6 @@ class BFSTest {
 		layer.addBlack('G', 6);
 		layer.addBlack('G', 5);
 		layer.addBlack('G', 4);
-
-		
-//		Node node1 = graph.getVertex('A', 1);
-//		Node node2 = graph.getVertex('B', 2);
-//		Node node3 = graph.getVertex('C', 3);
-//		Node node4 = graph.getVertex('D', 4);
-//		Node node5 = graph.getVertex('G', 7);
-//		Node node6 = graph.getVertex('G', 6);
-//		Node node7 = graph.getVertex('G', 5);
-//		Node node8 = graph.getVertex('G', 4);
-//		
-//		graph.getVertices().put(node1, MarbleColor.BLACK);
-//		graph.getVertices().put(node2, MarbleColor.BLACK);
-//		graph.getVertices().put(node3, MarbleColor.BLACK);
-//		graph.getVertices().put(node4, MarbleColor.BLACK);
-//		graph.getVertices().put(node5, MarbleColor.BLACK);
-//		graph.getVertices().put(node6, MarbleColor.BLACK);
-//		graph.getVertices().put(node7, MarbleColor.BLACK);
-//		graph.getVertices().put(node8, MarbleColor.BLACK);
 	}
 	
 	public void test_two_small_blobs_Adder(Layer layer) {
@@ -78,27 +45,6 @@ class BFSTest {
 		layer.addWhite('H', 8);
 		layer.addWhite('H', 9);
 		layer.addWhite('G', 9);
-//		Node node1 = graph.getVertex('D', 4);
-//		Node node2 = graph.getVertex('C', 3);
-//		Node node3 = graph.getVertex('D', 3);
-//		Node node4 = graph.getVertex('D', 2);
-//		Node node5 = graph.getVertex('C', 1);
-//		Node node6 = graph.getVertex('F', 7);
-//		Node node7 = graph.getVertex('G', 7);
-//		Node node8 = graph.getVertex('H', 8);
-//		Node node9 = graph.getVertex('H', 9);
-//		Node node10 = graph.getVertex('G', 9);
-//		
-//		graph.getVertices().put(node1, MarbleColor.BLACK);
-//		graph.getVertices().put(node2, MarbleColor.BLACK);
-//		graph.getVertices().put(node3, MarbleColor.BLACK);
-//		graph.getVertices().put(node4, MarbleColor.BLACK);
-//		graph.getVertices().put(node5, MarbleColor.BLACK);
-//		graph.getVertices().put(node6, MarbleColor.WHITE);
-//		graph.getVertices().put(node7, MarbleColor.WHITE);
-//		graph.getVertices().put(node8, MarbleColor.WHITE);
-//		graph.getVertices().put(node9, MarbleColor.WHITE);
-//		graph.getVertices().put(node10, MarbleColor.WHITE);
 	}
 	
 	public void test_one_large_blob_Adder(Layer layer){
@@ -113,28 +59,6 @@ class BFSTest {
 		layer.addBlack('H', 6);
 		layer.addBlack('F', 7);
 		layer.addBlack('G', 7);
-		
-//		Node node1 = graph.getVertex('C', 5);
-//		Node node2 = graph.getVertex('D', 5);
-//		Node node3 = graph.getVertex('G', 5);
-//		Node node4 = graph.getVertex('H', 5);
-//		Node node5 = graph.getVertex('D', 6);
-//		Node node6 = graph.getVertex('E', 6);
-//		Node node7 = graph.getVertex('G', 6);
-//		Node node8 = graph.getVertex('H', 6);
-//		Node node9 = graph.getVertex('F', 7);
-//		Node node10 = graph.getVertex('G', 7);
-//		
-//		graph.getVertices().put(node1, MarbleColor.BLACK);
-//		graph.getVertices().put(node2, MarbleColor.BLACK);
-//		graph.getVertices().put(node3, MarbleColor.BLACK);
-//		graph.getVertices().put(node4, MarbleColor.BLACK);
-//		graph.getVertices().put(node5, MarbleColor.BLACK);
-//		graph.getVertices().put(node6, MarbleColor.BLACK);
-//		graph.getVertices().put(node7, MarbleColor.BLACK);
-//		graph.getVertices().put(node8, MarbleColor.BLACK);
-//		graph.getVertices().put(node9, MarbleColor.BLACK);
-//		graph.getVertices().put(node10, MarbleColor.BLACK);
 	}
 	
 	public void add_second_large_blob(Layer layer) {
@@ -146,24 +70,6 @@ class BFSTest {
 		layer.addWhite('E', 5);
 		layer.addWhite('F', 5);
 		layer.addWhite('F', 6);
-		
-//		Node node1 = graph.getVertex('D', 3);
-//		Node node2 = graph.getVertex('E', 3);
-//		Node node3 = graph.getVertex('D', 4);
-//		Node node4 = graph.getVertex('E', 4);
-//		Node node5 = graph.getVertex('F', 4);
-//		Node node6 = graph.getVertex('E', 5);
-//		Node node7 = graph.getVertex('F', 5);
-//		Node node8 = graph.getVertex('F', 6);
-//		
-//		graph.getVertices().put(node1, MarbleColor.WHITE);
-//		graph.getVertices().put(node2, MarbleColor.WHITE);
-//		graph.getVertices().put(node3, MarbleColor.WHITE);
-//		graph.getVertices().put(node4, MarbleColor.WHITE);
-//		graph.getVertices().put(node5, MarbleColor.WHITE);
-//		graph.getVertices().put(node6, MarbleColor.WHITE);
-//		graph.getVertices().put(node7, MarbleColor.WHITE);
-//		graph.getVertices().put(node8, MarbleColor.WHITE);
 	}
 	
 	public void many_small_formations(Layer layer) {
@@ -183,22 +89,6 @@ class BFSTest {
 		layer.addBlack('D', 7);
 		layer.addBlack('D', 8);
 		layer.addBlack('E', 8);
-		
-//		graph.getVertices().put(graph.getVertex('B', 6), MarbleColor.WHITE);
-//		graph.getVertices().put(graph.getVertex('C', 6), MarbleColor.WHITE);
-//		graph.getVertices().put(graph.getVertex('D', 6), MarbleColor.WHITE);
-//		graph.getVertices().put(graph.getVertex('E', 7), MarbleColor.WHITE);
-//		graph.getVertices().put(graph.getVertex('F', 8), MarbleColor.WHITE);
-//		graph.getVertices().put(graph.getVertex('C', 3), MarbleColor.BLACK);
-//		graph.getVertices().put(graph.getVertex('D', 4), MarbleColor.BLACK);
-//		graph.getVertices().put(graph.getVertex('D', 5), MarbleColor.BLACK);
-//		graph.getVertices().put(graph.getVertex('C', 4), MarbleColor.BLACK);
-//		graph.getVertices().put(graph.getVertex('C', 2), MarbleColor.WHITE);
-//		graph.getVertices().put(graph.getVertex('D', 2), MarbleColor.WHITE);
-//		graph.getVertices().put(graph.getVertex('E', 3), MarbleColor.WHITE);
-//		graph.getVertices().put(graph.getVertex('D', 7), MarbleColor.BLACK);
-//		graph.getVertices().put(graph.getVertex('D', 8), MarbleColor.BLACK);
-//		graph.getVertices().put(graph.getVertex('E', 8), MarbleColor.BLACK);
 	}
 	
 	public void nodes_but_not_formations_Adder(Layer layer) {
@@ -208,12 +98,6 @@ class BFSTest {
 		layer.addBlack('E', 7);
 		layer.addWhite('F', 8);
 		layer.addBlack('C', 3);
-//		graph.getVertices().put(graph.getVertex('B', 6), MarbleColor.WHITE);
-//		graph.getVertices().put(graph.getVertex('C', 6), MarbleColor.WHITE);
-//		graph.getVertices().put(graph.getVertex('D', 6), MarbleColor.BLACK);
-//		graph.getVertices().put(graph.getVertex('E', 7), MarbleColor.BLACK);
-//		graph.getVertices().put(graph.getVertex('F', 8), MarbleColor.WHITE);
-//		graph.getVertices().put(graph.getVertex('C', 3), MarbleColor.BLACK);
 	}
 	
 	@Test
@@ -443,4 +327,24 @@ class BFSTest {
 		assertEquals(blackFormations.BFSOnMarbleFormations(MarbleColor.BLACK), new ArrayList<ArrayList<Node>>());
 		assertEquals(whiteFormations.BFSOnMarbleFormations(MarbleColor.WHITE), new ArrayList<ArrayList<Node>>());
 	}
+	
+	@Test
+	void test_diameter_of_Wide_formation() {
+		Layer layer = new Layer();
+		test_one_large_blob_Adder(layer);
+		BFS diameter = new BFS(layer, MarbleColor.BLACK);
+		BFS blackFormations = new BFS(layer, MarbleColor.BLACK);
+		assertEquals(diameter.BFSDiameter(blackFormations.BFSOnMarbleFormations(MarbleColor.BLACK).get(0)), 7);
+	}
+	
+	@Test
+	void test_diameter_Of_Compact_formation() {
+		Layer layer = new Layer();
+		add_second_large_blob(layer);
+		BFS diameter = new BFS(layer, MarbleColor.WHITE);
+		BFS whiteFormations = new BFS(layer, MarbleColor.WHITE);
+		assertEquals(diameter.BFSDiameter(whiteFormations.BFSOnMarbleFormations(MarbleColor.WHITE).get(0)), 3);
+	}
+	
+	
 }

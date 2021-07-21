@@ -26,9 +26,17 @@ public class BoardStateAssessment {
 		_blobs = new BFS(layer, color);
 	}
 
-	public void determineScore() {
-		_boardScore += calculateBoardOwnership();
-		_boardScore += blobCalculation();
+	public double determineScore() {
+		_boardScore += calculateBoardOwnership(_color);
+		_boardScore -= calculateBoardOwnership(_color.flipColor());
+		_boardScore += blobCalculation(_color);
+		_boardScore -= blobCalculation(_color.flipColor());
+		if(_blobs.BFSOnMarbleFormations(_color).size() == 1) {
+			_boardScore += cohesionScoreCalculator(_color);
+		}
+		
+		//Max score would be 3 and 10/14. Represented as a mixed number that's (26/7)
+		return _boardScore / (26 / 7);
 		//	_boardScore += ShapeScore();
 	}
 
@@ -46,25 +54,25 @@ public class BoardStateAssessment {
 	//
 	//
 
-	private int calculateBoardOwnership() {
+	private int calculateBoardOwnership(MarbleColor color) {
 		//runs through each section of the board and rewards a score based on ownership
 		int ownerScore = 0;
-		if (doesOwn(AbaloneGraph.get().getVertex('B', 2))) ownerScore += 5;
-		if (doesOwn(AbaloneGraph.get().getVertex('E', 2))) ownerScore += 5;
-		if (doesOwn(AbaloneGraph.get().getVertex('B', 5))) ownerScore += 5;
+		if (doesOwn(AbaloneGraph.get().getVertex('B', 2), color)) ownerScore += 1;
+		if (doesOwn(AbaloneGraph.get().getVertex('E', 2), color)) ownerScore += 1;
+		if (doesOwn(AbaloneGraph.get().getVertex('B', 5), color)) ownerScore += 1;
 		//We add more importance to owning the center section since it's strategically more adventageous.
-		if (doesOwn(AbaloneGraph.get().getVertex('E', 5))) ownerScore += 10;
-		if (doesOwn(AbaloneGraph.get().getVertex('H', 5))) ownerScore += 5;
-		if (doesOwn(AbaloneGraph.get().getVertex('E', 8))) ownerScore += 5;
-		if (doesOwn(AbaloneGraph.get().getVertex('H', 8))) ownerScore += 5;
+		if (doesOwn(AbaloneGraph.get().getVertex('E', 5), color)) ownerScore += 2;
+		if (doesOwn(AbaloneGraph.get().getVertex('H', 5), color)) ownerScore += 1;
+		if (doesOwn(AbaloneGraph.get().getVertex('E', 8), color)) ownerScore += 1;
+		if (doesOwn(AbaloneGraph.get().getVertex('H', 8), color)) ownerScore += 1;
 
-		return ownerScore;
+		return ownerScore / 8;
 	}
 
-	private boolean doesOwn(Node node) {
+	private boolean doesOwn(Node node, MarbleColor color) {
 		//Determines if color is in control of a certain area defined by its center node
 		if (_shapeID.isHex(node)) return true;
-		if (determineDominance(node) == _color) return true;
+		if (determineDominance(node) == color) return true;
 
 		return false;		
 	}
@@ -91,17 +99,22 @@ public class BoardStateAssessment {
 		return _layer.contains(node._col, node._row);
 	}
 
-	private int blobCalculation() {
+	private int blobCalculation(MarbleColor color) {
 		int blobScore = 0;
-		ArrayList<ArrayList<Node>> blob = _blobs.BFSOnMarbleFormations(_color);
-		ArrayList<ArrayList<Node>> opponentBlob = _blobs.BFSOnMarbleFormations(_color.flipColor());
+		ArrayList<ArrayList<Node>> blob = _blobs.BFSOnMarbleFormations(color);
+		//		ArrayList<ArrayList<Node>> opponentBlob = _blobs.BFSOnMarbleFormations(_color.flipColor());
+		//
+		//		if (blob.size() < opponentBlob.size()) {
+		//			blobScore += 5;
+		//			if (isInterceeding(blob, opponentBlob)) blobScore += 10;		
+		//		}
+		//
+		//		if (blob.size() == 1) blobScore += cohesionScoreCalculator(blob.get(0));
+		if (blob.size() == 1) return 1;
+		if (blob.size() == 2) return 0;
+		if (blob.size() == 3) return 0;
+		if (blob.size() == 4) return -1;
 
-		if (blob.size() < opponentBlob.size()) {
-			blobScore += 5;
-			if (isInterceeding(blob, opponentBlob)) blobScore += 10;		
-		}
-
-		if (blob.size() == 1) blobScore += cohesionScoreCalculator(blob.get(0));
 		return blobScore;
 	}
 
@@ -136,32 +149,47 @@ public class BoardStateAssessment {
 		return false;
 	}
 
-	private double cohesionScoreCalculator(ArrayList<Node> form) {
-		 return calculateDistance(form.get(0), form.get(form.size()-1));
+	private double cohesionScoreCalculator(MarbleColor color) {
+
+		ArrayList<Node> form = _blobs.BFSOnMarbleFormations(color).get(0);
+		double distance = _blobs.BFSDiameter(form);
+	//	double distance = calculateDistance(form.get(0), form.get(form.size()-1));
+		return 1 - (distance/14);
+		
 
 	}
 
 	//Since we don't have right triangles, we will need to use Law of cosines to get our distance
-	private double calculateDistance(Node smallest, Node endpoint) {
+	public double calculateDistance(Node smallest, Node endpoint) {
 		// If the two points are on the same line then the distance simple subtraction
 		if ((int)endpoint._col == (int) smallest._col) return endpoint._row - smallest._row;
 		if (endpoint._row == smallest._row) return (int)endpoint._col - (int) smallest._col;
-		
+
 		//Otherwise we need to use the law of cosines
 		if ((int)endpoint._col > (int) smallest._col) {
 			int a = (int)endpoint._col - (int) smallest._col;
 			int b = endpoint._row - smallest._row;
 			// c^2 = a^2 + b^2 - 2abcos(C) --- C will always be 60 in this case
-			return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2) - 2*a*b*Math.cos(60));
+			return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2) - 2*a*b*(float)Math.cos(Math.PI/3));
 		}
 		else {
 			int a = (int)smallest._col - (int) endpoint._col;
 			int b = endpoint._row - smallest._row;
 			// c^2 = a^2 + b^2 - 2abcos(C) --- C will always be 120 in this case
-			return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2) - 2*a*b*Math.cos(120));
+			return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2) - 2*a*b*(float)Math.cos(2*Math.PI / 3));
 		}
 	}
 
-	//private int ShapeScore
+	//	private int ShapeScore() {
+	//		int ShapeScore = 0;
+	//		ShapeScore += _shapeID.getSmallTriangles(_color).size();
+	//		ShapeScore += _shapeID.getVs(_color).size();
+	//		ShapeScore += _shapeID.getParallelograms(1, _color).size();
+	//		ShapeScore += _shapeID.getParallelograms(2, _color).size();
+	//		ShapeScore += _shapeID.getParallelograms(3, _color).size();
+	//		ShapeScore += _shapeID.getTrapizoids(_color).size();
+	//		
+	//		return ShapeScore;
+	//	}
 
 }

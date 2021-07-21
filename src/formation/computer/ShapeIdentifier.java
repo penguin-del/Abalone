@@ -3,12 +3,15 @@ package formation.computer;
 import java.util.ArrayList;
 
 import board.Layer;
+import board.LightNode;
 import board.Marble.MarbleColor;
+import formation.shape.Hexagon;
 import formation.shape.Line;
 import formation.shape.Parallelogram;
 import formation.shape.Triangle;
 import graph.AbaloneGraph;
 import graph.Node;
+import utilities.ListUtilities;
 
 public class ShapeIdentifier {
 
@@ -52,6 +55,17 @@ public class ShapeIdentifier {
 			}
 		}
 		return true;
+	}
+	
+	public ArrayList<Hexagon> getHexes(MarbleColor color) {
+		ArrayList<Hexagon> hexList = new ArrayList<Hexagon>();
+		for (LightNode lightweight: _layer.getNodes(color)) {
+			if(isHex(AbaloneGraph.get().getVertex(lightweight._col, lightweight._row))) {
+				Hexagon addHex = new Hexagon(AbaloneGraph.get().getVertex(lightweight._col, lightweight._row));
+				ListUtilities.ListInsertInOrder(hexList, addHex);
+			}
+		}
+		return hexList;
 	}
 
 	public ArrayList<ArrayList<Line>> getVs(MarbleColor color){

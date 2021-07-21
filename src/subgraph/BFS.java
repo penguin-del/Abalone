@@ -43,6 +43,11 @@ public class BFS
 		//creates an arraylist of all formations on the board. A formation is defined as a grouping of interconnected nodes. 
 		//A line of 5 could count as a formation but so could a zig-zag line.
 		ArrayList<ArrayList<Node>> marbleFormations = new ArrayList<ArrayList<Node>>();
+		
+		//resets the marking color of all marbles in adjacency before we try to find formations
+		for (LightNode node: _adjacency) {
+			AbaloneGraph.get().getVertex(node._col, node._row)._color = MarkingColor.MARKINGWHITE; 				
+		}
 
 		for (LightNode node : _adjacency){
 
@@ -76,19 +81,19 @@ public class BFS
 			if(formation.size() >= _MIN_FORMATION_SIZE) marbleFormations.add(formation);
 
 		}
-
-		for (LightNode node: _adjacency) {
-			AbaloneGraph.get().getVertex(node._col, node._row)._color = MarkingColor.MARKINGWHITE; 				
-		}
-
 		return marbleFormations;
 	}
 
 	public int BFSDiameter(ArrayList <Node> formation) {
 		
+		//wipes away the markings from our graph specifically in our formation
+		for(Node erased: formation) {
+			erased._color = MarkingColor.MARKINGWHITE;
+		}
+		
 		//Creates a new queue for a breath first search and adds the first Pair.
 		Queue<Pair<Node, Integer>> queue = new LinkedList<Pair<Node, Integer>>(); 
-		Pair<Node, Integer> startNode = new Pair<Node, Integer>(formation.get(0), 1);
+		Pair<Node, Integer> startNode = new Pair<Node, Integer>(formation.get(0), 0);
 		queue.add(startNode);
 		ArrayList<Pair<Node, Integer>> checker = new ArrayList<Pair<Node, Integer>>();
 		
@@ -102,7 +107,8 @@ public class BFS
 			
 			//figures out the neighbors and marks them as visited
 			for (Node neighbor: node.getNeighbors()) {
-				if(neighbor._color == MarkingColor.MARKINGWHITE) {
+				if(_layer.sameColor(neighbor._col, neighbor._row, node._col, node._row) &&
+				  (neighbor._color == MarkingColor.MARKINGWHITE)) {
 					neighbor._color = MarkingColor.MARKINGBLACK;
 					Pair<Node, Integer> next = new Pair<Node, Integer>(neighbor, depth+1);
 					queue.add(next);
@@ -117,12 +123,6 @@ public class BFS
 					diameter = candidate.getSecond();
 				}
 			}
-			
-			//wipes away the markings from our function so we can use the graph again
-			for(Node erased: formation) {
-				erased._color = MarkingColor.MARKINGWHITE;
-			}
-			
 		return diameter;		
 	}
 }
