@@ -36,4 +36,6 @@ public class Constants
 	public static AbstractPlayer PLAYER_1_TYPE = new RandomPlayerTieredMove();
 	
 	public static AbstractPlayer PLAYER_2_TYPE = new RandomPlayerTieredMove();
+	
+	public static final String DESTINATION_FILE = "destinationFile";
 }
