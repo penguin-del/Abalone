@@ -4,12 +4,10 @@ import board.Game;
 import board.Layer;
 import board.Marble.MarbleColor;
 import globals.Constants;
-import player.RandomPlayerAllMove;
-import player.RandomPlayerPushMove;
 import utilities.Pair;
 
-public class Rollout {
-	
+public class TimeRollout {
+
 	//all caps is things that can be changed later on
 	
 	//winner returns 1 CAN BE CHANGED TO WHATEVER WE DECIDE TO SCORE
@@ -43,8 +41,7 @@ public class Rollout {
 		if(winningColor==MarbleColor.EMPTY) {
 			//gets finalLayer from pair
 			Layer finalLayer = winner.getSecond();
-//			ExponentialScoring score = new ExponentialScoring();
-			HybridScoring score = new HybridScoring();
+			ExponentialScoring score = new ExponentialScoring();
 			return score.getScore(finalLayer, moverColor);
 		}
 		

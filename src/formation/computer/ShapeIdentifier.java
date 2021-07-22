@@ -47,7 +47,7 @@ public class ShapeIdentifier {
 			_layer.contains(center._col, center._row)) return false;
 
 		//check each value in the Hash table to ensure that each node around the center has an equivalent piece
-		for (int i = 0; i < vertex.getNeighbors().size() - 1; i++) {
+		for (int i = 0; i < vertex.getNeighbors().size(); i++) {
 			if ((_layer.contains(vertex.getNeighbors().get(i)._col, vertex.getNeighbors().get(i)._row) != 
 				_layer.contains(center._col, center._row)) ||
 				(_layer.contains(vertex.getNeighbors().get(i)._col, vertex.getNeighbors().get(i)._row) == MarbleColor.EMPTY)) {

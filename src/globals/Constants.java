@@ -27,15 +27,15 @@ public class Constants
 	
 	
 	//Time for each 
-	public static long TIME_LIMIT_FOR_RUN = 10000;
+	public static long TIME_LIMIT_FOR_RUN = 60000;
 	
 	
 	//number of moves that the game will play with CAN BE CHANGED TO HOWEVER MANY MOVES
 	public static int MAX_NUM_MOVES = 800;
 	
-	public static AbstractPlayer PLAYER_1_TYPE = new RandomPlayerTieredMove();
+	public static AbstractPlayer PLAYER_1_TYPE = new RandomPlayerPushMove();
 	
-	public static AbstractPlayer PLAYER_2_TYPE = new RandomPlayerTieredMove();
+	public static AbstractPlayer PLAYER_2_TYPE = new RandomPlayerPushMove();
 	
 	public static final String DESTINATION_FILE = "destinationFile";
 }

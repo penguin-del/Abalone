@@ -18,7 +18,6 @@ public class TimeBasedPlayer extends AbstractPlayer{
 		System.out.println(chosenMove);
 		System.out.println(moveLayer);
 	
-		
 		return moveLayer;
 	}
 

@@ -35,21 +35,35 @@ class BoardAssessmentTest {
 		Dominance_Node_Adder(layer);
 		BoardStateAssessment board = new BoardStateAssessment(layer, MarbleColor.BLACK);
 		
-		assertEquals(board.determineScore(), (float) 7/(float) 27);
+		assertEquals(board.determineScore(), (float) 9/(float) 35);
 		
 		layer.addBlack('E', 4);
 		layer.addBlack('E', 6);
 		board = new BoardStateAssessment(layer, MarbleColor.BLACK);
 		
-		assertEquals(board.determineScore(), 1);
+		assertEquals(board.determineScore(),((float)34/(float)35));
 		
 		layer.addBlack('A', 1);
 		layer.addBlack('A', 2);
 		board = new BoardStateAssessment(layer, MarbleColor.BLACK);
 		
-		assertEquals(board.determineScore(), (float) 14/(float) 27);
+		assertEquals(board.determineScore(), (float) 18/(float) 35);
 		
 	}
+	@Test
+	void test_getScore_Hybrid() {
+	
+		Layer layer = Layer.getDefaultBoard();
+		
+		
+		HybridScoring hs = new HybridScoring();
+		BoardStateAssessment bsa = new BoardStateAssessment(layer, MarbleColor.BLACK);
+		System.out.println(bsa.determineScore());
+		
+		System.out.println(hs.getScore(layer, MarbleColor.WHITE));
+		//assertTrue(hs.getScore(layer, MarbleColor.BLACK)==0);
+	}
+	
 	
 //	@Test
 //	void second_test_for_area_dominance_and Blobs() {

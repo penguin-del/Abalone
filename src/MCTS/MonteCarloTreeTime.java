@@ -147,10 +147,10 @@ public class MonteCarloTreeTime {
 
 		// Chose highest score node
 		Move chosenMove =  _root.greatestScoreChild().getMove();
-		System.out.println("Height: "+_root.height());
-		System.out.println("Width: "+_root.width());
-		System.out.println("Size: "+_size);
-		System.out.println("Rollout: "+_numRollout);
+//		System.out.println("Height: "+_root.height());
+//		System.out.println("Width: "+_root.width());
+//		System.out.println("Size: "+_size);
+//		System.out.println("Rollout: "+_numRollout);
 		return chosenMove;
 	}
 
@@ -186,7 +186,7 @@ public class MonteCarloTreeTime {
 		{
 			if (node._timesVisited == 0)
 			{
-				Rollout rolled = new Rollout();
+				TimeRollout rolled = new TimeRollout();
 				node._totalScore = rolled.rollout(node.getLayer(), color, _startingColor);
 				_numRollout += 1;
 				node._timesVisited++;
@@ -197,7 +197,7 @@ public class MonteCarloTreeTime {
 				expandBranches(node, color);
 				TreeNode randChild = node.randomChild();
 				if (randChild == null) System.err.println("Random Child is null ; MCTS::run");
-				Rollout rolled = new Rollout();
+				TimeRollout rolled = new TimeRollout();
 				float rolloutScore = rolled.rollout(randChild.getLayer(), color, _startingColor);
 				_numRollout += 1;
 				randChild._totalScore += rolloutScore;

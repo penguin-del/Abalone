@@ -24,6 +24,7 @@ public class BoardStateAssessment {
 		_color = color;
 		_shapeID = new ShapeIdentifier(layer);
 		_blobs = new BFS(layer, color);
+		
 	}
 
 	public float determineScore() {
@@ -36,7 +37,7 @@ public class BoardStateAssessment {
 		}
 		
 		//Max score would be 3 and 12/14. Represented as a mixed number that's (26/7)
-		return (float)(7*_boardScore)/ (float) 27;
+		return (float)(9*_boardScore)/ (float) 35;
 		//	_boardScore += ShapeScore();
 	}
 
@@ -54,9 +55,9 @@ public class BoardStateAssessment {
 	//
 	//
 
-	private int calculateBoardOwnership(MarbleColor color) {
+	private float calculateBoardOwnership(MarbleColor color) {
 		//runs through each section of the board and rewards a score based on ownership
-		int ownerScore = 0;
+		float ownerScore = (float) 0.0;
 		if (doesOwn(AbaloneGraph.get().getVertex('B', 2), color)) ownerScore += 1;
 		if (doesOwn(AbaloneGraph.get().getVertex('E', 2), color)) ownerScore += 1;
 		if (doesOwn(AbaloneGraph.get().getVertex('B', 5), color)) ownerScore += 1;
@@ -66,7 +67,7 @@ public class BoardStateAssessment {
 		if (doesOwn(AbaloneGraph.get().getVertex('E', 8), color)) ownerScore += 1;
 		if (doesOwn(AbaloneGraph.get().getVertex('H', 8), color)) ownerScore += 1;
 
-		return ownerScore / 8;
+		return (float) (ownerScore / 8.0);
 	}
 
 	private boolean doesOwn(Node node, MarbleColor color) {
@@ -101,7 +102,8 @@ public class BoardStateAssessment {
 
 	private int blobCalculation(MarbleColor color) {
 		int blobScore = 0;
-		ArrayList<ArrayList<Node>> blob = _blobs.BFSOnMarbleFormations(color);
+		BFS blobs = new BFS(_layer, color);
+		ArrayList<ArrayList<Node>> blob = blobs.BFSOnMarbleFormations(color);
 		//		ArrayList<ArrayList<Node>> opponentBlob = _blobs.BFSOnMarbleFormations(_color.flipColor());
 		//
 		//		if (blob.size() < opponentBlob.size()) {
@@ -153,9 +155,9 @@ public class BoardStateAssessment {
 	private double cohesionScoreCalculator(MarbleColor color) {
 
 		ArrayList<Node> form = _blobs.BFSOnMarbleFormations(color).get(0);
-		double distance = _blobs.BFSDiameter(form);
+		double distance = calculateDistance(form.get(0), form.get(form.size()-1));
 	//	double distance = calculateDistance(form.get(0), form.get(form.size()-1));
-		return 1 - (distance/14);
+		return 1 - (distance/9);
 		
 
 	}
