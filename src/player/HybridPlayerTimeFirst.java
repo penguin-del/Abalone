@@ -1,17 +1,17 @@
 package player;
 
+import MCTS.BoardStateAssessment;
 import board.Layer;
 import board.Marble.MarbleColor;
 
-public class HybridPlayer extends AbstractPlayer{
+public class HybridPlayerTimeFirst extends AbstractPlayer{
 
-	protected boolean isEarlyGame = true;
+	protected boolean _isEarlyGame = true;
 	
 	@Override
 	public Layer takeTurn(Layer layer, MarbleColor color) {
-		
 
-		if (isEarlyGame) {
+		if (_isEarlyGame) {
 			//			MonteCarloTreeTime mctt= new MonteCarloTreeTime(layer, color);
 			//			Move chosenMove = mctt.run();
 			//			
@@ -20,6 +20,9 @@ public class HybridPlayer extends AbstractPlayer{
 
 			TimeBasedPlayer tbp = new TimeBasedPlayer();
 			Layer moveLayer = tbp.takeTurn(layer, color);
+			
+			BoardStateAssessment bsa = new BoardStateAssessment(moveLayer, color);
+			if(bsa.isMidGame(moveLayer, color)) _isEarlyGame = false;
 
 			return moveLayer;
 
@@ -38,6 +41,10 @@ public class HybridPlayer extends AbstractPlayer{
 			
 			return moveLayer;
 		}
+	}
+	
+	public void reset() {
+		_isEarlyGame = true;
 	}
 
 }

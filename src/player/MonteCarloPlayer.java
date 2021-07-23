@@ -15,10 +15,10 @@ public class MonteCarloPlayer extends AbstractPlayer{
 		
 		Layer moveLayer = chosenMove.makeMoveOnCopyBoard(layer);
 		
-		System.out.println("MCT Move");
-		
-		System.out.println(chosenMove);
-		System.out.println(moveLayer);
+//		System.out.println("MCT Move");
+//		
+//		System.out.println(chosenMove);
+//		System.out.println(moveLayer);
 	
 		return moveLayer;
 	}

@@ -32,7 +32,8 @@ public class Experiment
         {
 			//creates the board from the standard text file
 			Layer startLayer = Layer.getDefaultBoard();
-
+			_params._player1.reset();
+			_params._player2.reset();
 			//initializes the game with the board game and players then plays the game
 			Game game = new Game(startLayer, _params._player1, _params._player2, _params._maxTurns);
 			Pair<MarbleColor, Layer> winnerInfo = game.play();

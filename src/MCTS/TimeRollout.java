@@ -41,8 +41,8 @@ public class TimeRollout {
 		if(winningColor==MarbleColor.EMPTY) {
 			//gets finalLayer from pair
 			Layer finalLayer = winner.getSecond();
-			ExponentialScoring score = new ExponentialScoring();
-			return score.getScore(finalLayer, moverColor);
+			HybridScoring hst = new HybridScoring();
+			return hst.getScore(finalLayer, moverColor);
 		}
 		
 		

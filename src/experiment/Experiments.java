@@ -20,7 +20,7 @@ public class Experiments {
 	
 	public static void TwoPushMovers() throws IOException {
 
-		Experiment_Parameters params = new Experiment_Parameters(new MonteCarloPlayer(), new TimeBasedPlayer(), 500, 1);
+		Experiment_Parameters params = new Experiment_Parameters(new MonteCarloPlayer(), new TimeBasedPlayer(), 500, 4);
 
 		Experiment ex = new Experiment(params);
 		

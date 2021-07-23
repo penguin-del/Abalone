@@ -143,10 +143,10 @@ public class MonteCarloTree {
 
 		// Chose highest score node
 		Move chosenMove =  _root.greatestScoreChild().getMove();
-		System.out.println("Height: "+_root.height());
-		System.out.println("Width: "+_root.width());
-		System.out.println("Size: "+_size);
-		System.out.println("Rollout: "+_numRollout);
+//		System.out.println("Height: "+_root.height());
+//		System.out.println("Width: "+_root.width());
+//		System.out.println("Size: "+_size);
+//		System.out.println("Rollout: "+_numRollout);
 		return chosenMove;
 	}
 
