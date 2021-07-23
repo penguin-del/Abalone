@@ -33,7 +33,7 @@ public class FinalStatistics {
 		try(PrintStream ps = new PrintStream(destination)){
 			for (AbstractPlayer player : _players) {
 				for (AbstractPlayer player2 : _players) {
-					Experiment_Parameters params = new Experiment_Parameters(player, player2, 1000, 4);
+					Experiment_Parameters params = new Experiment_Parameters(player, player2, 1000, 5);
 					Experiment exp = new Experiment(params);
 					ExperimentResults results = exp.run();
 					float winRatio = ((float) results._player1Wins /(float) 4)*100;

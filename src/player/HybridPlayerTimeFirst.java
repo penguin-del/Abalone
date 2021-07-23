@@ -3,11 +3,14 @@ package player;
 import MCTS.BoardStateAssessment;
 import board.Layer;
 import board.Marble.MarbleColor;
-import move.representation.Move;
 
 public class HybridPlayerTimeFirst extends AbstractPlayer{
 
 	protected boolean _isEarlyGame = true;
+	
+	public HybridPlayerTimeFirst() {
+		_isEarlyGame = true;
+	}
 	
 	@Override
 	public Layer takeTurn(Layer layer, MarbleColor color) {
@@ -26,9 +29,6 @@ public class HybridPlayerTimeFirst extends AbstractPlayer{
 			BoardStateAssessment bsa = new BoardStateAssessment(moveLayer, color);
 			if(bsa.isMidGame(moveLayer, color)) _isEarlyGame = false;
 
-			System.out.println(moveLayer);
-			BoardStateAssessment bsa = new BoardStateAssessment(moveLayer, color);
-			if(bsa.isMidGame(moveLayer, color)) _isEarlyGame = false;
 
 			return moveLayer;
 
@@ -43,8 +43,6 @@ public class HybridPlayerTimeFirst extends AbstractPlayer{
 			//		Move chosenMove = mct.run();
 			//
 			//		Layer moveLayer = chosenMove.makeMoveOnCopyBoard(layer);
-
-			System.out.println(moveLayer);
 
 			return moveLayer;
 		}
