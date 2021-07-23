@@ -40,6 +40,19 @@ public class BoardStateAssessment {
 		return (float)(9*_boardScore)/ (float) 35;
 		//	_boardScore += ShapeScore();
 	}
+	
+	public boolean isMidGame(Layer layer, MarbleColor color) {
+		BFS bfs = new BFS(layer, color);
+		
+		//if either color is interceeding the other then it is a mid game scenario
+		if(isInterceeding(bfs.BFSOnMarbleFormations(color), bfs.BFSOnMarbleFormations(color.flipColor())) ||
+		   isInterceeding(bfs.BFSOnMarbleFormations(color.flipColor()), bfs.BFSOnMarbleFormations(color))) return true;
+		
+		//if a marble gets pushed off, it is a mid-game scenario
+		if(layer.numMarblesLeft(color) < 14 || layer.numMarblesLeft(color.flipColor()) < 14) return true;
+		
+		return false;
+	}
 
 	//Consider adjacent blobs, compactness, ownership of parts of the board
 
