@@ -25,6 +25,7 @@ public class FinalStatistics {
 		//_players.add(new RandomPlayerAllMove());
 		//_players.add(new RandomPlayerPushMove());
 		//_players.add(new RandomPlayerTieredMove());
+		System.out.println("Run");
 		_players.add(new MonteCarloPlayer());
 		_players.add(new TimeBasedPlayer());
 		_players.add(new HybridPlayerTimeFirst());
@@ -33,10 +34,10 @@ public class FinalStatistics {
 		try(PrintStream ps = new PrintStream(destination)){
 			for (AbstractPlayer player : _players) {
 				for (AbstractPlayer player2 : _players) {
-					Experiment_Parameters params = new Experiment_Parameters(player, player2, 1000, 5);
+					Experiment_Parameters params = new Experiment_Parameters(player, player2, 1000, Constants.NUM_FINAL_STAT_ITERATIONS);
 					Experiment exp = new Experiment(params);
 					ExperimentResults results = exp.run();
-					float winRatio = ((float) results._player1Wins /(float) 5)*100;
+					float winRatio = ((float) results._player1Wins /(float) Constants.NUM_FINAL_STAT_ITERATIONS)*100;
 					ps.print(winRatio+"% ,");
 				}
 				ps.print('\n');

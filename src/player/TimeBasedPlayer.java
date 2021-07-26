@@ -14,9 +14,9 @@ public class TimeBasedPlayer extends AbstractPlayer{
 		
 		Layer moveLayer = chosenMove.makeMoveOnCopyBoard(layer);
 		
-		System.out.println("Timed Move");
-		System.out.println(chosenMove);
-		System.out.println(moveLayer);
+//		System.out.println("Timed Move");
+//		System.out.println(chosenMove);
+//		System.out.println(moveLayer);
 	
 		return moveLayer;
 	}

@@ -38,4 +38,6 @@ public class Constants
 	public static AbstractPlayer PLAYER_2_TYPE = new RandomPlayerPushMove();
 	
 	public static final String DESTINATION_FILE = "destinationFile";
+	
+	public static final int NUM_FINAL_STAT_ITERATIONS = 5;
 }
